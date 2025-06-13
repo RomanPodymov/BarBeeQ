@@ -7,15 +7,28 @@
 //
 
 import ComposableArchitecture
+import MapKit
 import SwiftUI
 
 struct RootView: View {
     var store: StoreOf<RootReducer>
 
     var body: some View {
-        Text(store.state.data)
-            .onAppear {
-                store.send(.onAppear)
+        Map {
+            ForEach(store.data) { place in
+                Annotation(place.name, coordinate: place.location) {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 5)
+                            .fill(Color.yellow)
+                        Text(place.name)
+                            .padding(5)
+                    }
+                }
             }
+        }
+        .mapControlVisibility(.hidden)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }

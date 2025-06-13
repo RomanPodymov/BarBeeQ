@@ -2,7 +2,7 @@ name: BarBeeQ
 options:
   bundleIdPrefix: com.barbeeq
   deploymentTarget:
-    iOS: 13.0
+    iOS: 17.0
   xcodeVersion: "16.2"
 packages:
   ComposableArchitecture:
