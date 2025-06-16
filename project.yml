@@ -8,6 +8,9 @@ packages:
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
     version: 1.20.2
+  TCACoordinators:
+    url: https://github.com/RomanPodymov/TCACoordinators.git
+    version: 0.12.1
 targets:
   BarBeeQApp:
     settings:
@@ -19,6 +22,7 @@ targets:
     sources: [BarBeeQ]
     dependencies:
       - package: ComposableArchitecture
+      - package: TCACoordinators
     info:
       path: BarBeeQ/Info.plist
       properties:

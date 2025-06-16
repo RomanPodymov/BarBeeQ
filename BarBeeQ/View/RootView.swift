@@ -9,6 +9,7 @@
 import ComposableArchitecture
 import MapKit
 import SwiftUI
+import TCACoordinators
 
 struct RootView: View {
     var store: StoreOf<RootReducer>
