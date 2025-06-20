@@ -11,17 +11,17 @@ import SwiftUI
 
 @main
 struct BarBeeQApp: App {
-    let store: Store<RootReducer.State, RootReducer.Action>
+    let store: Store<MainTabCoordinator.State, MainTabCoordinator.Action>
 
     init() {
-        store = Store(initialState: RootReducer.State()) {
-            RootReducer()
+        store = Store(initialState: .initialState) {
+            MainTabCoordinator()
         }
     }
 
     var body: some Scene {
         WindowGroup {
-            RootView(store: store)
+            MainTabCoordinatorView(store: store)
         }
     }
 }
