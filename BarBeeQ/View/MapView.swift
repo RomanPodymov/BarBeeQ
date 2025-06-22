@@ -28,5 +28,8 @@ struct MapView: View {
             }
         }
         .mapControlVisibility(.hidden)
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }

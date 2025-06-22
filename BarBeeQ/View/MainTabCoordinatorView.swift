@@ -21,12 +21,9 @@ struct MainTabCoordinatorView: View {
                     .tabItem { Text("Map") }
                     .tag(MainTabCoordinator.Tab.map)
 
-                /* Text("Profile")
-                 .tabItem { Text("Profile") }
-                 .tag(MainTabCoordinator.Tab.profile) */
-            }
-            .onAppear {
-                store.send(.onAppear)
+                Text("Profile")
+                    .tabItem { Text("Profile") }
+                    .tag(MainTabCoordinator.Tab.profile)
             }
         }
     }

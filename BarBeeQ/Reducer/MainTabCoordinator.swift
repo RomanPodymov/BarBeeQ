@@ -7,22 +7,6 @@
 //
 
 import ComposableArchitecture
-import MapKit
-
-struct Place: Equatable, Identifiable {
-    var id: String {
-        name
-    }
-
-    static func == (lhs: Place, rhs: Place) -> Bool {
-        lhs.name == rhs.name &&
-            lhs.location.latitude == rhs.location.latitude &&
-            lhs.location.longitude == rhs.location.longitude
-    }
-
-    let name: String
-    let location: CLLocationCoordinate2D
-}
 
 @Reducer
 struct MainTabCoordinator {
@@ -33,7 +17,6 @@ struct MainTabCoordinator {
     enum Action {
         case map(MapCoordinator.Action)
         case tabSelected(Tab)
-        case onAppear
     }
 
     @ObservableState
@@ -55,13 +38,6 @@ struct MainTabCoordinator {
             switch action {
             case let .tabSelected(tab):
                 state.selectedTab = tab
-            case .onAppear:
-                /* state.data = [
-                     Place(name: "Prague", location: .init(latitude: 50.073658, longitude: 14.418540)),
-                     Place(name: "Pilsen", location: .init(latitude: 49.738430, longitude: 13.373637)),
-                     Place(name: "Olomouc", location: .init(latitude: 49.593777, longitude: 17.250879)),
-                 ] */
-                break
             default:
                 break
             }

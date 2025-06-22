@@ -7,17 +7,22 @@
 //
 
 import ComposableArchitecture
-import MapKit
 @preconcurrency import TCACoordinators
 
 @Reducer(state: .equatable, .hashable)
 enum MapScreen {
-    case step1
+    case map
+    case newPlace
 }
 
 extension MapScreen.State: Identifiable {
     var id: String {
-        ""
+        switch self {
+        case .map:
+            return "map"
+        case .newPlace:
+            return "new"
+        }
     }
 }
 
@@ -26,7 +31,7 @@ struct MapCoordinator {
     @ObservableState
     struct State: Equatable, Sendable {
         static let initialState = State(
-            routes: [.root(.step1)]
+            routes: [.root(.map)]
         )
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
     }
@@ -36,8 +41,12 @@ struct MapCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, _ in
-            .none
+        Reduce { _, action in
+            switch action {
+            case let .router(route):
+                // state.routes += [.push(.map)]
+                return .none
+            }
         }
         .forEachRoute(\.routes, action: \.router)
     }

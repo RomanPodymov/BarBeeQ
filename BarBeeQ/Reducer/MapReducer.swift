@@ -8,7 +8,21 @@
 
 import ComposableArchitecture
 import MapKit
-@preconcurrency import TCACoordinators
+
+struct Place: Equatable, Identifiable {
+    var id: String {
+        name
+    }
+
+    static func == (lhs: Place, rhs: Place) -> Bool {
+        lhs.name == rhs.name &&
+            lhs.location.latitude == rhs.location.latitude &&
+            lhs.location.longitude == rhs.location.longitude
+    }
+
+    let name: String
+    let location: CLLocationCoordinate2D
+}
 
 @Reducer
 struct MapReducer {
@@ -18,7 +32,7 @@ struct MapReducer {
     }
 
     enum Action {
-        case some
+        case onAppear
     }
 
     var body: some ReducerOf<Self> {
