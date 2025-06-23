@@ -41,10 +41,12 @@ struct MapCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            case let .router(route):
-                // state.routes += [.push(.map)]
+            case .router(.routeAction(id: _, action: .newPlace)):
+                state.routes.push(.newPlace)
+                return .none
+            default:
                 return .none
             }
         }
