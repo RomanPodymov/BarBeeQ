@@ -9,7 +9,7 @@
 import ComposableArchitecture
 import MapKit
 
-struct Place: Equatable, Identifiable {
+struct Place: Equatable, Hashable, Identifiable {
     var id: String {
         name
     }
@@ -22,12 +22,16 @@ struct Place: Equatable, Identifiable {
 
     let name: String
     let location: CLLocationCoordinate2D
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
 }
 
 @Reducer
 struct MapReducer {
     @ObservableState
-    struct State: Equatable, Sendable {
+    struct State: Equatable, Hashable, Sendable {
         static let initialState = State(
             data: []
         )
@@ -36,17 +40,23 @@ struct MapReducer {
 
     enum Action {
         case onAppear
+        case received([Place])
     }
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                state.data = [
-                    Place(name: "Prague", location: .init(latitude: 50.073658, longitude: 14.418540)),
-                    Place(name: "Pilsen", location: .init(latitude: 49.738430, longitude: 13.373637)),
-                    Place(name: "Olomouc", location: .init(latitude: 49.593777, longitude: 17.250879)),
-                ]
+                return .run { @MainActor send in
+                    try await Task.sleep(nanoseconds: 1_000_000_000)
+                    send(.received([
+                        Place(name: "Prague", location: .init(latitude: 50.073658, longitude: 14.418540)),
+                        Place(name: "Pilsen", location: .init(latitude: 49.738430, longitude: 13.373637)),
+                        Place(name: "Olomouc", location: .init(latitude: 49.593777, longitude: 17.250879)),
+                    ]))
+                }
+            case let .received(data):
+                state.data = data
                 return .none
             }
         }

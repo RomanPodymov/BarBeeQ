@@ -16,14 +16,9 @@ struct MapCoordinatorView: View {
     var body: some View {
         TCARouter(store.scope(state: \.routes, action: \.router)) { screen in
             switch screen.case {
-            case .map:
+            case let .map(store):
                 MapView(
-                    store: .init(
-                        initialState: .initialState,
-                        reducer: {
-                            MapReducer()
-                        }
-                    )
+                    store: store
                 )
             default:
                 Text("Unknown case")

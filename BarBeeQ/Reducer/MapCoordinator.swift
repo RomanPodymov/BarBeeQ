@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 @Reducer(state: .equatable, .hashable)
 enum MapScreen {
-    case map
+    case map(MapReducer)
     case newPlace
 }
 
@@ -31,7 +31,7 @@ struct MapCoordinator {
     @ObservableState
     struct State: Equatable, Sendable {
         static let initialState = State(
-            routes: [.root(.map)]
+            routes: [.root(.map(.init(data: [])))]
         )
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
     }
