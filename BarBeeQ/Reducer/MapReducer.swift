@@ -24,7 +24,7 @@ struct Place: Equatable, Hashable, Identifiable {
     let location: CLLocationCoordinate2D
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(name)
+        hasher.combine(id)
     }
 }
 

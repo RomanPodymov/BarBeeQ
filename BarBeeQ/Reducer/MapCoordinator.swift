@@ -31,7 +31,7 @@ struct MapCoordinator {
     @ObservableState
     struct State: Equatable, Sendable {
         static let initialState = State(
-            routes: [.root(.map(.init(data: [])))]
+            routes: [.root(.map(.initialState))]
         )
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
     }
