@@ -12,20 +12,23 @@ import SwiftUI
 import TCACoordinators
 
 struct AddLocationView: View {
-    var store: StoreOf<AddLocationReducer>
+    @Bindable var store: StoreOf<AddLocationReducer>
 
     var body: some View {
-        Button {
-            store.send(
-                .add(
-                    .init(
-                        name: "Prague",
-                        location: .init(latitude: 50.073658, longitude: 14.418540)
+        VStack {
+            TextEditor(text: $store.name.sending(\.nameChanged))
+            Button {
+                store.send(
+                    .add(
+                        .init(
+                            name: store.name,
+                            location: .init(latitude: 50.073658, longitude: 14.418540)
+                        )
                     )
                 )
-            )
-        } label: {
-            Text("Add location")
+            } label: {
+                Text("Add location")
+            }
         }
     }
 }
