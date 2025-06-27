@@ -22,6 +22,7 @@ struct MapReducer {
         case onAppear
         case received([BarBeeQLocation])
         case newLocationPressed
+        case locationDetailPressed
     }
 
     @Dependency(\.locationsClient) var locationsClient

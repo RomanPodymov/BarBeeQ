@@ -20,10 +20,9 @@ struct MapView: View {
                 ForEach(store.data) { place in
                     Annotation(place.name, coordinate: place.location) {
                         ZStack {
-                            RoundedRectangle(cornerRadius: 5)
-                                .fill(Color.yellow)
-                            Text(place.name)
-                                .padding(5)
+                            Button {
+                                store.send(.locationDetailPressed)
+                            } label: { Text(place.name) }
                         }
                     }
                 }

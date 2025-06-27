@@ -44,7 +44,7 @@ struct MapCoordinator {
         Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
-                state.routes.push(.newLocation)
+                state.routes.presentSheet(.newLocation)
                 return .none
             default:
                 return .none

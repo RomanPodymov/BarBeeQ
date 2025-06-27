@@ -10,7 +10,7 @@ import ComposableArchitecture
 import Foundation
 import MapKit
 
-struct BarBeeQLocation: Equatable, Hashable, Identifiable {
+struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {
     var id: String {
         name
     }
@@ -32,8 +32,10 @@ struct BarBeeQLocation: Equatable, Hashable, Identifiable {
 @DependencyClient
 struct LocationsClient {
     typealias LocationsProvider = @Sendable () async throws -> [BarBeeQLocation]
+    typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
 
     var locations: LocationsProvider
+    var addLocation: LocationAddProvider
 }
 
 extension DependencyValues {
