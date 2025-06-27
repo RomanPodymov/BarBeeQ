@@ -17,6 +17,17 @@ struct AddLocationView: View {
     var body: some View {
         VStack {
             TextEditor(text: $store.name.sending(\.nameChanged))
+
+            Button {
+                store.send(
+                    .selectLocation
+                )
+            } label: {
+                Text("Select location")
+            }
+
+            Spacer()
+
             Button {
                 store.send(
                     .add(

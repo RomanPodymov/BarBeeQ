@@ -21,6 +21,7 @@ struct AddLocationReducer {
         case add(BarBeeQLocation)
         case locationAdded
         case nameChanged(String)
+        case selectLocation
     }
 
     @Dependency(\.locationsClient) var locationsClient

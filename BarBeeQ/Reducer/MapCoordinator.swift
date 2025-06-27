@@ -13,11 +13,13 @@ import TCACoordinators
 enum MapScreen {
     case map(MapReducer)
     case newLocation(AddLocationReducer)
+    case mapSelection(MapSelectionReducer)
 }
 
 enum MapScreenId {
     case map
     case newLocation
+    case mapSelection
 }
 
 extension MapScreen.State: Identifiable {
@@ -27,6 +29,8 @@ extension MapScreen.State: Identifiable {
             .map
         case .newLocation:
             .newLocation
+        case .mapSelection:
+            .mapSelection
         }
     }
 }
@@ -51,8 +55,14 @@ struct MapCoordinator {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
                 state.routes.push(.newLocation(.initialState))
                 return .none
+            case .router(.routeAction(_, action: .newLocation(.selectLocation))):
+                state.routes.push(.mapSelection(.initialState))
+                return .none
             case .router(.routeAction(_, action: .newLocation(.locationAdded))):
                 state.routes.goBackTo(id: .map)
+                return .none
+            case .router(.routeAction(_, action: .mapSelection(.locationSelected))):
+                state.routes.goBackTo(id: .newLocation)
                 return .none
             default:
                 return .none
