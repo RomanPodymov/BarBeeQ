@@ -19,6 +19,12 @@ struct MainTabCoordinatorView: View {
                 .tabItem { Text("Map") }
                 .tag(MainTabCoordinator.Tab.map)
 
+            LocationsListView(store: .init(initialState: .initialState, reducer: {
+                MapReducer()
+            }))
+            .tabItem { Text("List") }
+            .tag(MainTabCoordinator.Tab.list)
+
             Text("Profile")
                 .tabItem { Text("Profile") }
                 .tag(MainTabCoordinator.Tab.profile)

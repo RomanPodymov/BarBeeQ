@@ -1,8 +1,8 @@
 //
-//  MapView.swift
+//  LocationsListView.swift
 //  BarBeeQ
 //
-//  Created by Roman Podymov on 19/06/2025.
+//  Created by Roman Podymov on 26/06/2025.
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
@@ -11,23 +11,18 @@ import MapKit
 import SwiftUI
 import TCACoordinators
 
-struct MapView: View {
+struct LocationsListView: View {
     var store: StoreOf<MapReducer>
 
     var body: some View {
         ZStack {
-            Map {
+            List {
                 ForEach(store.data) { place in
-                    Annotation(place.name, coordinate: place.location) {
-                        ZStack {
-                            Button {
-                                store.send(.locationDetailPressed)
-                            } label: { Text(place.name) }
-                        }
-                    }
+                    Button {
+                        store.send(.locationDetailPressed)
+                    } label: { Text(place.name) }
                 }
             }
-            .mapControlVisibility(.hidden)
             Button {
                 store.send(.newLocationPressed)
             } label: {
