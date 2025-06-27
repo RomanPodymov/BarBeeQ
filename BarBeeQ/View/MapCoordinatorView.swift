@@ -20,8 +20,8 @@ struct MapCoordinatorView: View {
                 MapView(
                     store: store
                 )
-            default:
-                Text("Unknown case")
+            case .newPlace:
+                Text("New place")
             }
         }
     }

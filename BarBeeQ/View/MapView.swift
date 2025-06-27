@@ -15,7 +15,7 @@ struct MapView: View {
     @Bindable var store: StoreOf<MapReducer>
 
     var body: some View {
-        WithPerceptionTracking {
+        ZStack {
             Map {
                 ForEach(store.data) { place in
                     Annotation(place.name, coordinate: place.location) {
@@ -29,9 +29,14 @@ struct MapView: View {
                 }
             }
             .mapControlVisibility(.hidden)
-            .onAppear {
-                store.send(.onAppear)
+            Button {
+                // store.send()
+            } label: {
+                Text("New location")
             }
+        }
+        .onAppear {
+            store.send(.onAppear)
         }
     }
 }
