@@ -30,7 +30,7 @@ struct MapView: View {
             }
             .mapControlVisibility(.hidden)
             Button {
-                // store.send()
+                store.send(.newLocationPressed)
             } label: {
                 Text("New location")
             }

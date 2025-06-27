@@ -21,6 +21,7 @@ struct MapReducer {
     enum Action {
         case onAppear
         case received([BarBeeQLocation])
+        case newLocationPressed
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -35,6 +36,8 @@ struct MapReducer {
                 }
             case let .received(data):
                 state.data = data
+                return .none
+            default:
                 return .none
             }
         }

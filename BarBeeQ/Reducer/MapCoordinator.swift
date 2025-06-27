@@ -12,7 +12,7 @@ import ComposableArchitecture
 @Reducer(state: .equatable, .hashable)
 enum MapScreen {
     case map(MapReducer)
-    case newPlace
+    case newLocation
 }
 
 extension MapScreen.State: Identifiable {
@@ -20,7 +20,7 @@ extension MapScreen.State: Identifiable {
         switch self {
         case .map:
             return "map"
-        case .newPlace:
+        case .newLocation:
             return "new"
         }
     }
@@ -31,7 +31,7 @@ struct MapCoordinator {
     @ObservableState
     struct State: Equatable, Sendable {
         static let initialState = State(
-            routes: [.root(.map(.initialState))]
+            routes: [.root(.map(.initialState), embedInNavigationView: true)]
         )
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
     }
@@ -43,8 +43,8 @@ struct MapCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .router(.routeAction(id: _, action: .newPlace)):
-                state.routes.push(.newPlace)
+            case .router(.routeAction(_, action: .map(.newLocationPressed))):
+                state.routes.push(.newLocation)
                 return .none
             default:
                 return .none
