@@ -7,26 +7,6 @@
 //
 
 import ComposableArchitecture
-import MapKit
-
-struct Place: Equatable, Hashable, Identifiable {
-    var id: String {
-        name
-    }
-
-    static func == (lhs: Place, rhs: Place) -> Bool {
-        lhs.name == rhs.name &&
-            lhs.location.latitude == rhs.location.latitude &&
-            lhs.location.longitude == rhs.location.longitude
-    }
-
-    let name: String
-    let location: CLLocationCoordinate2D
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
 
 @Reducer
 struct MapReducer {
@@ -35,25 +15,23 @@ struct MapReducer {
         static let initialState = State(
             data: []
         )
-        var data: [Place]
+        var data: [BarBeeQLocation]
     }
 
     enum Action {
         case onAppear
-        case received([Place])
+        case received([BarBeeQLocation])
     }
+
+    @Dependency(\.locationsClient) var locationsClient
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                return .run { @MainActor send in
-                    try await Task.sleep(nanoseconds: 1_000_000_000)
-                    send(.received([
-                        Place(name: "Prague", location: .init(latitude: 50.073658, longitude: 14.418540)),
-                        Place(name: "Pilsen", location: .init(latitude: 49.738430, longitude: 13.373637)),
-                        Place(name: "Olomouc", location: .init(latitude: 49.593777, longitude: 17.250879)),
-                    ]))
+                return .run { send in
+                    let locations = try await locationsClient.locations()
+                    await send(.received(locations))
                 }
             case let .received(data):
                 state.data = data
