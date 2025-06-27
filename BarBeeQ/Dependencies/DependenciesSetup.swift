@@ -7,9 +7,6 @@
 //
 
 import ComposableArchitecture
-import Foundation
-
-// MARK: - LocationsClient
 
 extension LocationsClient: DependencyKey {
     private static let dummy = {

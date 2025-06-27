@@ -7,7 +7,6 @@
 //
 
 import ComposableArchitecture
-import Foundation
 import MapKit
 
 struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {

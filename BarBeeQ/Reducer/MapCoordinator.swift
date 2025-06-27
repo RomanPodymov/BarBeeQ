@@ -7,7 +7,7 @@
 //
 
 import ComposableArchitecture
-@preconcurrency import TCACoordinators
+import TCACoordinators
 
 @Reducer(state: .equatable, .hashable)
 enum MapScreen {
