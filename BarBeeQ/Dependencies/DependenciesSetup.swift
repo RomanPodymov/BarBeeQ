@@ -21,8 +21,8 @@ extension LocationsClient: DependencyKey {
 
         return LocationsClient(locations: {
             currentState
-        }, addLocation: {
-            currentState += [$0]
+        }, addLocation: { location in
+            currentState += [location]
         })
     }()
 
@@ -31,7 +31,7 @@ extension LocationsClient: DependencyKey {
     static let liveValue = backendless
 }
 
-extension LocationsClient: TestDependencyKey, @unchecked Sendable {
+extension LocationsClient: TestDependencyKey {
     static let previewValue = dummy
 
     static let testValue = previewValue

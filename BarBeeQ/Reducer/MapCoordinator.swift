@@ -19,9 +19,9 @@ extension MapScreen.State: Identifiable {
     var id: String {
         switch self {
         case .map:
-            return "map"
+            "map"
         case .newLocation:
-            return "new"
+            "new"
         }
     }
 }
