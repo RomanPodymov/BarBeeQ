@@ -20,8 +20,10 @@ struct MapCoordinatorView: View {
                 MapView(
                     store: store
                 )
-            case .newLocation:
-                Text("New location")
+            case let .newLocation(store):
+                AddLocationView(
+                    store: store
+                )
             }
         }
     }

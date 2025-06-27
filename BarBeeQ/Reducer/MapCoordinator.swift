@@ -12,16 +12,21 @@ import TCACoordinators
 @Reducer(state: .equatable, .hashable)
 enum MapScreen {
     case map(MapReducer)
+    case newLocation(AddLocationReducer)
+}
+
+enum MapScreenId {
+    case map
     case newLocation
 }
 
 extension MapScreen.State: Identifiable {
-    var id: String {
+    var id: MapScreenId {
         switch self {
         case .map:
-            "map"
+            .map
         case .newLocation:
-            "new"
+            .newLocation
         }
     }
 }
@@ -44,7 +49,10 @@ struct MapCoordinator {
         Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
-                state.routes.presentSheet(.newLocation)
+                state.routes.push(.newLocation(.initialState))
+                return .none
+            case .router(.routeAction(_, action: .newLocation(.locationAdded))):
+                state.routes.goBackTo(id: .map)
                 return .none
             default:
                 return .none

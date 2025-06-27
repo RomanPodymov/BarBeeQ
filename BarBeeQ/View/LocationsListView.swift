@@ -20,7 +20,9 @@ struct LocationsListView: View {
                 ForEach(store.data) { place in
                     Button {
                         store.send(.locationDetailPressed)
-                    } label: { Text(place.name) }
+                    } label: {
+                        Text(place.name)
+                    }
                 }
             }
             Button {

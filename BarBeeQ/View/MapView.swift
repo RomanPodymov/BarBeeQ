@@ -22,7 +22,9 @@ struct MapView: View {
                         ZStack {
                             Button {
                                 store.send(.locationDetailPressed)
-                            } label: { Text(place.name) }
+                            } label: {
+                                Text(place.name)
+                            }
                         }
                     }
                 }
