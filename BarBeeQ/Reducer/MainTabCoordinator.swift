@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct MainTabCoordinator {
     enum Tab: Hashable {
-        case map, profile
+        case map, list, profile
     }
 
     enum Action {

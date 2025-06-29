@@ -11,7 +11,7 @@ import SwiftUI
 import TCACoordinators
 
 struct MapCoordinatorView: View {
-    @Bindable var store: StoreOf<MapCoordinator>
+    var store: StoreOf<MapCoordinator>
 
     var body: some View {
         TCARouter(store.scope(state: \.routes, action: \.router)) { screen in
@@ -20,8 +20,14 @@ struct MapCoordinatorView: View {
                 MapView(
                     store: store
                 )
-            case .newLocation:
-                Text("New location")
+            case let .newLocation(store):
+                AddLocationView(
+                    store: store
+                )
+            case let .mapSelection(store):
+                MapSelectionView(
+                    store: store
+                )
             }
         }
     }

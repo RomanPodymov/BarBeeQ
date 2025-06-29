@@ -12,16 +12,25 @@ import TCACoordinators
 @Reducer(state: .equatable, .hashable)
 enum MapScreen {
     case map(MapReducer)
+    case newLocation(AddLocationReducer)
+    case mapSelection(MapSelectionReducer)
+}
+
+enum MapScreenId {
+    case map
     case newLocation
+    case mapSelection
 }
 
 extension MapScreen.State: Identifiable {
-    var id: String {
+    var id: MapScreenId {
         switch self {
         case .map:
-            "map"
+            .map
         case .newLocation:
-            "new"
+            .newLocation
+        case .mapSelection:
+            .mapSelection
         }
     }
 }
@@ -33,7 +42,11 @@ struct MapCoordinator {
         static let initialState = State(
             routes: [.root(.map(.initialState), embedInNavigationView: true)]
         )
+
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
+
+        var addLocationState = AddLocationReducer.State.initialState
+        var mapSelection = MapSelectionReducer.State.initialState
     }
 
     enum Action {
@@ -44,7 +57,24 @@ struct MapCoordinator {
         Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
-                state.routes.presentSheet(.newLocation)
+                state.addLocationState = .initialState
+                state.routes.push(.newLocation(state.addLocationState))
+                return .none
+            case .router(.routeAction(_, action: .newLocation(.selectLocation))):
+                state.routes.push(.mapSelection(state.mapSelection))
+                return .none
+            case .router(.routeAction(_, action: .newLocation(.locationAdded))):
+                state.routes.goBackTo(id: .map)
+                return .none
+            case let .router(.routeAction(_, action: .newLocation(.nameChanged(name)))):
+                state.addLocationState.name = name
+                return .none
+            case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
+                state.addLocationState.location = location
+                state.routes = [
+                    .root(.map(.initialState), embedInNavigationView: true),
+                    .push(.newLocation(state.addLocationState)),
+                ]
                 return .none
             default:
                 return .none
