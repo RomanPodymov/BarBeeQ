@@ -71,8 +71,7 @@ struct MapCoordinator {
                 return .none
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
                 state.addLocationState.location = location
-                state.routes = [
-                    .root(.map(.initialState), embedInNavigationView: true),
+                state.routes = State.initialState.routes + [
                     .push(.newLocation(state.addLocationState)),
                 ]
                 return .none

@@ -19,15 +19,32 @@ targets:
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: ${SWIFT_ACTIVE_COMPILATION_CONDITIONS}
     type: application
     platform: iOS
-    sources: [BarBeeQ]
+    sources: [Sources]
     dependencies:
       - package: ComposableArchitecture
       - package: TCACoordinators
     info:
-      path: BarBeeQ/Info.plist
+      path: Sources/Info.plist
       properties:
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: YES
+    postCompileScripts:
+      - script: "/opt/homebrew/bin/mint run swiftformat . --swiftversion 5.9"
+        name: SwiftFormat
+      - script: "/opt/homebrew/bin/mint run swiftlint"
+        name: SwiftLint
+  BarBeeQAppTests:
+    settings:
+      base:
+        SWIFT_VERSION: 5
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: ${SWIFT_ACTIVE_COMPILATION_CONDITIONS}
+    type: bundle.unit-test
+    platform: iOS
+    sources: [Tests]
+    dependencies:
+      - target: BarBeeQApp
+    info:
+      path: Tests/Info.plist
     postCompileScripts:
       - script: "/opt/homebrew/bin/mint run swiftformat . --swiftversion 5.9"
         name: SwiftFormat

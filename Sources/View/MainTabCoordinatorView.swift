@@ -16,7 +16,7 @@ struct MainTabCoordinatorView: View {
     var body: some View {
         TabView(selection: $store.selectedTab.sending(\.tabSelected)) {
             MapCoordinatorView(store: store.scope(state: \.map, action: \.map))
-                .tabItem { Text("Map") }
+                .tabItem { Text("tab.title.map") }
                 .tag(MainTabCoordinator.Tab.map)
 
             LocationsListView(store: .init(initialState: .initialState, reducer: {
