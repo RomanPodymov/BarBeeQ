@@ -30,10 +30,20 @@ struct MapView: View {
                 }
             }
             .mapControlVisibility(.hidden)
-            Button {
-                store.send(.newLocationPressed)
-            } label: {
-                Text("New location")
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button {
+                        store.send(.newLocationPressed)
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                    }
+                    .padding(.trailing, 100)
+                    .padding(.bottom, 100)
+                }
             }
         }
         .onAppear {
