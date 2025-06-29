@@ -66,7 +66,7 @@ struct MapCoordinator {
                 state.routes.goBackTo(id: .map)
                 return .none
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
-                state.addLocationState = .init(name: "", location: location)
+                state.addLocationState.location = location
                 state.routes.goBackTo(id: .newLocation)
                 return .none
             default:

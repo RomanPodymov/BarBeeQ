@@ -11,6 +11,18 @@ import MapKit
 import SwiftUI
 import TCACoordinators
 
+struct LocationView: View {
+    let text: String
+
+    init(_ location: CLLocationCoordinate2D) {
+        text = "\(location.latitude), \(location.longitude)"
+    }
+
+    var body: some View {
+        Text(text)
+    }
+}
+
 struct AddLocationView: View {
     @Bindable var store: StoreOf<AddLocationReducer>
 
@@ -18,7 +30,7 @@ struct AddLocationView: View {
         VStack {
             TextEditor(text: $store.name.sending(\.nameChanged))
 
-            Text("\(store.location)")
+            LocationView(store.location)
 
             Button {
                 store.send(

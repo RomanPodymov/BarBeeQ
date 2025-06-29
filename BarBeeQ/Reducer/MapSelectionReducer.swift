@@ -14,8 +14,6 @@ struct MapSelectionReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
-
-        var name = ""
     }
 
     enum Action {
@@ -23,11 +21,6 @@ struct MapSelectionReducer {
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
-            switch action {
-            default:
-                .none
-            }
-        }
+        EmptyReducer()
     }
 }

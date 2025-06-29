@@ -19,7 +19,6 @@ struct MapSelectionView: View {
             Map {}
                 .onTapGesture { position in
                     if let coordinate = proxy.convert(position, from: .local) {
-                        print("Tapped at \(coordinate)")
                         store.send(.locationSelected(coordinate))
                     }
                 }
