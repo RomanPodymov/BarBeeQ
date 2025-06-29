@@ -57,6 +57,7 @@ struct MapCoordinator {
         Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
+                state.addLocationState = .initialState
                 state.routes.push(.newLocation(state.addLocationState))
                 return .none
             case .router(.routeAction(_, action: .newLocation(.selectLocation))):
@@ -65,9 +66,15 @@ struct MapCoordinator {
             case .router(.routeAction(_, action: .newLocation(.locationAdded))):
                 state.routes.goBackTo(id: .map)
                 return .none
+            case let .router(.routeAction(_, action: .newLocation(.nameChanged(name)))):
+                state.addLocationState.name = name
+                return .none
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
                 state.addLocationState.location = location
-                state.routes.goBackTo(id: .newLocation)
+                state.routes = [
+                    .root(.map(.initialState), embedInNavigationView: true),
+                    .push(.newLocation(state.addLocationState)),
+                ]
                 return .none
             default:
                 return .none
