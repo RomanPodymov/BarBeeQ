@@ -18,6 +18,8 @@ struct AddLocationView: View {
         VStack {
             TextEditor(text: $store.name.sending(\.nameChanged))
 
+            Text("\(store.location)")
+
             Button {
                 store.send(
                     .selectLocation
@@ -33,7 +35,7 @@ struct AddLocationView: View {
                     .add(
                         .init(
                             name: store.name,
-                            location: .init(latitude: 50.073658, longitude: 14.418540)
+                            location: store.location
                         )
                     )
                 )

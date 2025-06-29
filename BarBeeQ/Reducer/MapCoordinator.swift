@@ -42,7 +42,11 @@ struct MapCoordinator {
         static let initialState = State(
             routes: [.root(.map(.initialState), embedInNavigationView: true)]
         )
+
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
+
+        var addLocationState = AddLocationReducer.State.initialState
+        var mapSelection = MapSelectionReducer.State.initialState
     }
 
     enum Action {
@@ -53,15 +57,16 @@ struct MapCoordinator {
         Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
-                state.routes.push(.newLocation(.initialState))
+                state.routes.push(.newLocation(state.addLocationState))
                 return .none
             case .router(.routeAction(_, action: .newLocation(.selectLocation))):
-                state.routes.push(.mapSelection(.initialState))
+                state.routes.push(.mapSelection(state.mapSelection))
                 return .none
             case .router(.routeAction(_, action: .newLocation(.locationAdded))):
                 state.routes.goBackTo(id: .map)
                 return .none
-            case .router(.routeAction(_, action: .mapSelection(.locationSelected))):
+            case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
+                state.addLocationState = .init(name: "", location: location)
                 state.routes.goBackTo(id: .newLocation)
                 return .none
             default:

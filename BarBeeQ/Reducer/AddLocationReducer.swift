@@ -7,14 +7,24 @@
 //
 
 import ComposableArchitecture
+import MapKit
 
 @Reducer
 struct AddLocationReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
+        static func == (lhs: AddLocationReducer.State, rhs: AddLocationReducer.State) -> Bool {
+            lhs.name == rhs.name
+        }
+
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(name)
+        }
+
         static let initialState = State()
 
         var name = ""
+        var location = CLLocationCoordinate2D()
     }
 
     enum Action {
