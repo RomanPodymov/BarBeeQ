@@ -8,14 +8,23 @@
 
 import ComposableArchitecture
 
+actor TheWrapper {
+    var currentState: [BarBeeQLocation] = []
+
+    func set(currentState: [BarBeeQLocation]) {
+        self.currentState = currentState
+    }
+}
+
 extension LocationsClient: DependencyKey {
     private static let dummy = {
-        var currentState: [BarBeeQLocation] = []
+        let theWrapper = TheWrapper()
 
-        return LocationsClient(locations: {
-            currentState
-        }, addLocation: { location in
-            currentState += [location]
+        return LocationsClient(locations: { [theWrapper] in
+            await theWrapper.currentState
+        }, addLocation: { [theWrapper] location in
+            let locations = await theWrapper.currentState
+            await theWrapper.set(currentState: locations + [location])
         })
     }()
 

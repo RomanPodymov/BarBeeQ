@@ -15,7 +15,7 @@ targets:
   BarBeeQApp:
     settings:
       base:
-        SWIFT_VERSION: 5
+        SWIFT_VERSION: 6
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: ${SWIFT_ACTIVE_COMPILATION_CONDITIONS}
     type: application
     platform: iOS
@@ -36,7 +36,7 @@ targets:
   BarBeeQAppTests:
     settings:
       base:
-        SWIFT_VERSION: 5
+        SWIFT_VERSION: 6
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: ${SWIFT_ACTIVE_COMPILATION_CONDITIONS}
     type: bundle.unit-test
     platform: iOS
