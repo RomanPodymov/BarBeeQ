@@ -16,17 +16,17 @@ struct MainTabCoordinatorView: View {
     var body: some View {
         TabView(selection: $store.selectedTab.sending(\.tabSelected)) {
             MapCoordinatorView(store: store.scope(state: \.map, action: \.map))
-                .tabItem { Text("Map") }
+                .tabItem { Text("tab.map.title") }
                 .tag(MainTabCoordinator.Tab.map)
 
             LocationsListView(store: .init(initialState: .initialState, reducer: {
                 MapReducer()
             }))
-            .tabItem { Text("List") }
+            .tabItem { Text("tab.list.title") }
             .tag(MainTabCoordinator.Tab.list)
 
-            Text("Profile")
-                .tabItem { Text("Profile") }
+            Text("screen.profile.dummyText")
+                .tabItem { Text("tab.profile.title") }
                 .tag(MainTabCoordinator.Tab.profile)
         }
     }

@@ -7,9 +7,9 @@
 //
 
 import ComposableArchitecture
-import TCACoordinators
+@preconcurrency import TCACoordinators
 
-@Reducer(state: .equatable, .hashable)
+@Reducer(state: .equatable, .hashable, .sendable)
 enum MapScreen {
     case map(MapReducer)
     case newLocation(AddLocationReducer)
@@ -71,8 +71,7 @@ struct MapCoordinator {
                 return .none
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
                 state.addLocationState.location = location
-                state.routes = [
-                    .root(.map(.initialState), embedInNavigationView: true),
+                state.routes = State.initialState.routes + [
                     .push(.newLocation(state.addLocationState)),
                 ]
                 return .none

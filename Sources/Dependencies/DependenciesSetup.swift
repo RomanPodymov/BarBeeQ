@@ -8,17 +8,27 @@
 
 import ComposableArchitecture
 
+actor ThreadSafeArray<T> {
+    private var rawData: [T] = []
+
+    var data: [T] {
+        rawData
+    }
+
+    func set(data: [T]) {
+        rawData = data
+    }
+}
+
 extension LocationsClient: DependencyKey {
     private static let dummy = {
-        var currentState: [BarBeeQLocation] = [
-            .init(name: "Pilsen", location: .init(latitude: 49.738430, longitude: 13.373637)),
-            .init(name: "Olomouc", location: .init(latitude: 49.593777, longitude: 17.250879)),
-        ]
+        let locationsStorage = ThreadSafeArray<BarBeeQLocation>()
 
         return LocationsClient(locations: {
-            currentState
+            await locationsStorage.data
         }, addLocation: { location in
-            currentState += [location]
+            let locations = await locationsStorage.data
+            await locationsStorage.set(data: locations + [location])
         })
     }()
 
