@@ -39,4 +39,4 @@ jobs:
       - name: Generate Xcode project
         run: mint bootstrap && mint run xcodegen
       - name: Build and test iOS
-        run: xcodebuild test -project BarBeeQ.xcodeproj -scheme BarBeeQApp -destination "platform=iOS Simulator,OS=17.0.1,name=iPhone 15"
+        run: xcodebuild test -project BarBeeQ.xcodeproj -scheme BarBeeQApp -destination "platform=iOS Simulator,OS=17.0.1,name=iPhone 15" -skipMacroValidation
