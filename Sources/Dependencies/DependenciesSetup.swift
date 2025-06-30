@@ -22,13 +22,13 @@ actor ThreadSafeArray<T> {
 
 extension LocationsClient: DependencyKey {
     private static let dummy = {
-        let theWrapper = ThreadSafeArray<BarBeeQLocation>()
+        let locationsStorage = ThreadSafeArray<BarBeeQLocation>()
 
-        return LocationsClient(locations: { [theWrapper] in
-            await theWrapper.data
-        }, addLocation: { [theWrapper] location in
-            let locations = await theWrapper.data
-            await theWrapper.set(data: locations + [location])
+        return LocationsClient(locations: {
+            await locationsStorage.data
+        }, addLocation: { location in
+            let locations = await locationsStorage.data
+            await locationsStorage.set(data: locations + [location])
         })
     }()
 
