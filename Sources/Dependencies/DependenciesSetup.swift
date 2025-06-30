@@ -8,23 +8,27 @@
 
 import ComposableArchitecture
 
-actor TheWrapper {
-    var currentState: [BarBeeQLocation] = []
+actor ThreadSafeArray<T> {
+    private var rawData: [T] = []
 
-    func set(currentState: [BarBeeQLocation]) {
-        self.currentState = currentState
+    var data: [T] {
+        rawData
+    }
+
+    func set(data: [T]) {
+        rawData = data
     }
 }
 
 extension LocationsClient: DependencyKey {
     private static let dummy = {
-        let theWrapper = TheWrapper()
+        let theWrapper = ThreadSafeArray<BarBeeQLocation>()
 
         return LocationsClient(locations: { [theWrapper] in
-            await theWrapper.currentState
+            await theWrapper.data
         }, addLocation: { [theWrapper] location in
-            let locations = await theWrapper.currentState
-            await theWrapper.set(currentState: locations + [location])
+            let locations = await theWrapper.data
+            await theWrapper.set(data: locations + [location])
         })
     }()
 
