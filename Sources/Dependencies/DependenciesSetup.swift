@@ -10,10 +10,7 @@ import ComposableArchitecture
 
 extension LocationsClient: DependencyKey {
     private static let dummy = {
-        var currentState: [BarBeeQLocation] = [
-            .init(name: "Pilsen", location: .init(latitude: 49.738430, longitude: 13.373637)),
-            .init(name: "Olomouc", location: .init(latitude: 49.593777, longitude: 17.250879)),
-        ]
+        var currentState: [BarBeeQLocation] = []
 
         return LocationsClient(locations: {
             currentState

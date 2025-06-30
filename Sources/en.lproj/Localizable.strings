@@ -6,4 +6,7 @@
   
 */
 
-"tab.title.map" = "Map";
+"tab.map.title" = "Map";
+"tab.list.title" = "List";
+"tab.profile.title" = "Profile";
+"screen.profile.dummyText" = "To be done";
