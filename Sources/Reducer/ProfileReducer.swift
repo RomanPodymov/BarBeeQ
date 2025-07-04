@@ -7,7 +7,6 @@
 //
 
 import ComposableArchitecture
-import FirebaseAuth
 
 @Reducer
 struct ProfileReducer {
@@ -24,6 +23,8 @@ struct ProfileReducer {
         case onSignIn(email: String, password: String)
     }
 
+    @Dependency(\.locationsClient) var locationsClient
+
     var body: some ReducerOf<Self> {
         Reduce { _, action in
             switch action {
@@ -32,7 +33,7 @@ struct ProfileReducer {
                 }
             case let .onSignIn(email, password):
                 .run { _ in
-                    try await Auth.auth().createUser(withEmail: email, password: password)
+                    try await locationsClient.signIn(email, password)
                 }
             }
         }

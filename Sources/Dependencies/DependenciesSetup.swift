@@ -7,6 +7,7 @@
 //
 
 import ComposableArchitecture
+import FirebaseAuth
 import FirebaseCore
 import FirebaseFirestore
 
@@ -31,6 +32,7 @@ extension LocationsClient: DependencyKey {
         }, addLocation: { location in
             let locations = await locationsStorage.data
             await locationsStorage.set(data: locations + [location])
+        }, signIn: { _, _ in
         })
     }()
 
@@ -57,6 +59,12 @@ extension LocationsClient: DependencyKey {
                 longitude: location.location.longitude
             ),
         ])
+    }, signIn: { email, password in
+        do {
+            try await Auth.auth().createUser(withEmail: email, password: password)
+        } catch {
+            print(error)
+        }
     })
 
     static let liveValue = firebase

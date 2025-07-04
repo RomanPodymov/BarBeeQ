@@ -14,9 +14,13 @@ struct ProfileView: View {
     var store: StoreOf<ProfileReducer>
 
     var body: some View {
-        Text("TODO")
-            .onAppear {
-                store.send(.onAppear)
-            }
+        Button(action: {
+            store.send(.onSignIn(email: "", password: ""))
+        }, label: {
+            Text("Register")
+        })
+        .onAppear {
+            store.send(.onAppear)
+        }
     }
 }
