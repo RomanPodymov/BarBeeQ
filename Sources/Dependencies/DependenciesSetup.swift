@@ -36,9 +36,9 @@ extension LocationsClient: DependencyKey {
 
     private static let firebase = {
         FirebaseApp.configure()
+        let collection = Firestore.firestore().collection("BBQLocation")
         return LocationsClient(locations: {
-            let collection = try await Firestore.firestore().collection("BBQLocation").getDocuments()
-            return collection.documents.map {
+            try await collection.getDocuments().documents.map {
                 let data = $0.data()
                 return BarBeeQLocation(
                     name: (data["name"] as? String) ?? "",
@@ -49,13 +49,12 @@ extension LocationsClient: DependencyKey {
                 )
             }
         }, addLocation: { location in
-            let collection = Firestore.firestore().collection("BBQLocation")
             try await collection.addDocument(data: [
                 "name": location.name,
                 "location": GeoPoint(
                     latitude: location.location.latitude,
                     longitude: location.location.longitude
-                )
+                ),
             ])
         })
     }()
