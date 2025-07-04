@@ -7,6 +7,8 @@
 //
 
 import ComposableArchitecture
+import FirebaseCore
+import FirebaseFirestore
 
 actor ThreadSafeArray<T> {
     private var rawData: [T] = []
@@ -32,9 +34,33 @@ extension LocationsClient: DependencyKey {
         })
     }()
 
-    private static let backendless = dummy
+    private static let firebase = {
+        FirebaseApp.configure()
+        return LocationsClient(locations: {
+            let collection = try await Firestore.firestore().collection("BBQLocation").getDocuments()
+            return collection.documents.map {
+                let data = $0.data()
+                return BarBeeQLocation(
+                    name: (data["name"] as? String) ?? "",
+                    location: .init(
+                        latitude: (data["location"] as? GeoPoint)?.latitude ?? .zero,
+                        longitude: (data["location"] as? GeoPoint)?.longitude ?? .zero
+                    )
+                )
+            }
+        }, addLocation: { location in
+            let collection = Firestore.firestore().collection("BBQLocation")
+            try await collection.addDocument(data: [
+                "name": location.name,
+                "location": GeoPoint(
+                    latitude: location.location.latitude,
+                    longitude: location.location.longitude
+                )
+            ])
+        })
+    }()
 
-    static let liveValue = backendless
+    static let liveValue = firebase
 }
 
 extension LocationsClient: TestDependencyKey {
