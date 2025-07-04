@@ -14,6 +14,9 @@ packages:
   FirebaseFirestore:
     url: https://github.com/firebase/firebase-ios-sdk.git
     version: 11.15.0
+  FirebaseAuth:
+    url: https://github.com/firebase/firebase-ios-sdk.git
+    version: 11.15.0
 targets:
   BarBeeQApp:
     settings:
@@ -27,6 +30,7 @@ targets:
       - package: ComposableArchitecture
       - package: TCACoordinators
       - package: FirebaseFirestore
+      - package: FirebaseAuth
     info:
       path: Sources/Info.plist
       properties:

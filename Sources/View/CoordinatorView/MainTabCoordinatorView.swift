@@ -25,9 +25,11 @@ struct MainTabCoordinatorView: View {
             .tabItem { Text("tab.list.title") }
             .tag(MainTabCoordinator.Tab.list)
 
-            Text("screen.profile.dummyText")
-                .tabItem { Text("tab.profile.title") }
-                .tag(MainTabCoordinator.Tab.profile)
+            ProfileView(store: .init(initialState: .initialState, reducer: {
+                ProfileReducer()
+            }))
+            .tabItem { Text("tab.profile.title") }
+            .tag(MainTabCoordinator.Tab.profile)
         }
     }
 }

@@ -26,7 +26,7 @@ extension LocationsClient: DependencyKey {
     private static let dummy = {
         let locationsStorage = ThreadSafeArray<BarBeeQLocation>()
 
-        return LocationsClient(locations: {
+        return LocationsClient(setup: {}, locations: {
             await locationsStorage.data
         }, addLocation: { location in
             let locations = await locationsStorage.data
@@ -34,30 +34,30 @@ extension LocationsClient: DependencyKey {
         })
     }()
 
-    private static let firebase = {
+    private static let firebase = LocationsClient(setup: {
         FirebaseApp.configure()
+    }, locations: {
         let collection = Firestore.firestore().collection("BBQLocation")
-        return LocationsClient(locations: {
-            try await collection.getDocuments().documents.map {
-                let data = $0.data()
-                return BarBeeQLocation(
-                    name: (data["name"] as? String) ?? "",
-                    location: .init(
-                        latitude: (data["location"] as? GeoPoint)?.latitude ?? .zero,
-                        longitude: (data["location"] as? GeoPoint)?.longitude ?? .zero
-                    )
+        return try await collection.getDocuments().documents.map {
+            let data = $0.data()
+            return BarBeeQLocation(
+                name: (data["name"] as? String) ?? "",
+                location: .init(
+                    latitude: (data["location"] as? GeoPoint)?.latitude ?? .zero,
+                    longitude: (data["location"] as? GeoPoint)?.longitude ?? .zero
                 )
-            }
-        }, addLocation: { location in
-            try await collection.addDocument(data: [
-                "name": location.name,
-                "location": GeoPoint(
-                    latitude: location.location.latitude,
-                    longitude: location.location.longitude
-                ),
-            ])
-        })
-    }()
+            )
+        }
+    }, addLocation: { location in
+        let collection = Firestore.firestore().collection("BBQLocation")
+        try await collection.addDocument(data: [
+            "name": location.name,
+            "location": GeoPoint(
+                latitude: location.location.latitude,
+                longitude: location.location.longitude
+            ),
+        ])
+    })
 
     static let liveValue = firebase
 }
