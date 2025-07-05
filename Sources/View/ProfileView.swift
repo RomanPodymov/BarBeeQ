@@ -29,8 +29,5 @@ struct ProfileView: View {
         .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
             Button("OK", role: .cancel) {}
         }
-        .onAppear {
-            store.send(.onAppear)
-        }
     }
 }

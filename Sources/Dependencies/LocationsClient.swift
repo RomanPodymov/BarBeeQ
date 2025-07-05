@@ -22,6 +22,7 @@ struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {
 
     let name: String
     let location: CLLocationCoordinate2D
+    let photo: Data
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -35,12 +36,14 @@ struct LocationsClient {
     typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
     typealias SignInProvider = @Sendable (String, String) async throws -> Void
     typealias RegisterUserProvider = @Sendable (String, String) async throws -> Void
+    typealias ResetPaswordProvider = @Sendable (String) async throws -> Void
 
-    var setup: PrepareProvider
-    var locations: LocationsProvider
-    var addLocation: LocationAddProvider
-    var signIn: SignInProvider
-    var registerUser: RegisterUserProvider
+    let setup: PrepareProvider
+    let locations: LocationsProvider
+    let addLocation: LocationAddProvider
+    let signIn: SignInProvider
+    let registerUser: RegisterUserProvider
+    let resetPassword: ResetPaswordProvider
 }
 
 extension DependencyValues {

@@ -23,7 +23,13 @@ extension LocationsClient {
                 location: .init(
                     latitude: (data["location"] as? GeoPoint)?.latitude ?? .zero,
                     longitude: (data["location"] as? GeoPoint)?.longitude ?? .zero
-                )
+                ),
+                photo: {
+                    if let data = data["photo"] as? String {
+                        return Data(base64Encoded: data) ?? .init()
+                    }
+                    return .init()
+                }()
             )
         }
     }, addLocation: { location in
@@ -34,10 +40,13 @@ extension LocationsClient {
                 latitude: location.location.latitude,
                 longitude: location.location.longitude
             ),
+            "photo": location.photo.base64EncodedString(),
         ])
     }, signIn: { email, password in
         try await Auth.auth().signIn(withEmail: email, password: password)
     }, registerUser: { email, password in
         try await Auth.auth().createUser(withEmail: email, password: password)
+    }, resetPassword: { email in
+        try await Auth.auth().sendPasswordReset(withEmail: email)
     })
 }

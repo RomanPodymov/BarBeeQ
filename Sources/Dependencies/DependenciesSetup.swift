@@ -30,7 +30,8 @@ extension LocationsClient: DependencyKey {
             let locations = await locationsStorage.data
             await locationsStorage.set(data: locations + [location])
         }, signIn: { _, _ in
-        }, registerUser: { _, _ in })
+        }, registerUser: { _, _ in
+        }, resetPassword: { _ in })
     }()
 
     static let liveValue = firebase

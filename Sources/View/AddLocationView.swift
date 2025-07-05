@@ -8,6 +8,7 @@
 
 import ComposableArchitecture
 import MapKit
+import PhotosUI
 import SwiftUI
 import TCACoordinators
 
@@ -30,6 +31,18 @@ struct AddLocationView: View {
         VStack {
             TextEditor(text: $store.name.sending(\.nameChanged))
 
+            Button {
+                store.send(
+                    .showPhotosPicker(true)
+                )
+            } label: {
+                Text("Select photo")
+            }
+
+            createImage(store.photo)
+                .resizable()
+                .frame(width: 100, height: 100)
+
             LocationView(store.location)
 
             Button {
@@ -47,7 +60,8 @@ struct AddLocationView: View {
                     .add(
                         .init(
                             name: store.name,
-                            location: store.location
+                            location: store.location,
+                            photo: store.photo
                         )
                     )
                 )
@@ -55,5 +69,9 @@ struct AddLocationView: View {
                 Text("Add location")
             }
         }
+        .photosPicker(
+            isPresented: $store.showPhotosPicker.sending(\.showPhotosPicker),
+            selection: $store.selectedPhotos.sending(\.selectedPhotos)
+        )
     }
 }

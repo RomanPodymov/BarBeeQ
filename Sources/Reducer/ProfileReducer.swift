@@ -12,15 +12,12 @@ import ComposableArchitecture
 struct ProfileReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
-        static let initialState = State(
-            data: ""
-        )
-        var data = ""
+        static let initialState = State()
+
         var showingAlert = false
     }
 
     enum Action {
-        case onAppear
         case onSignIn(email: String, password: String)
         case onRegister(email: String, password: String)
         case error(Bool)
@@ -31,8 +28,6 @@ struct ProfileReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .onAppear:
-                return .none
             case let .onSignIn(email, password):
                 return .run { send in
                     do {
