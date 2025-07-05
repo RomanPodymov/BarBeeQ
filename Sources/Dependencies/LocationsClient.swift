@@ -34,11 +34,13 @@ struct LocationsClient {
     typealias LocationsProvider = @Sendable () async throws -> [BarBeeQLocation]
     typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
     typealias SignInProvider = @Sendable (String, String) async throws -> Void
+    typealias RegisterUserProvider = @Sendable (String, String) async throws -> Void
 
     var setup: PrepareProvider
     var locations: LocationsProvider
     var addLocation: LocationAddProvider
     var signIn: SignInProvider
+    var registerUser: RegisterUserProvider
 }
 
 extension DependencyValues {

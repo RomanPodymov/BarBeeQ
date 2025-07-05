@@ -11,14 +11,24 @@ import SwiftUI
 import TCACoordinators
 
 struct ProfileView: View {
-    var store: StoreOf<ProfileReducer>
+    @Bindable var store: StoreOf<ProfileReducer>
 
     var body: some View {
-        Button(action: {
-            store.send(.onSignIn(email: "", password: ""))
-        }, label: {
-            Text("Register")
-        })
+        VStack {
+            Button(action: {
+                store.send(.onSignIn(email: "", password: ""))
+            }, label: {
+                Text("Sign in")
+            })
+            Button(action: {
+                store.send(.onRegister(email: "", password: ""))
+            }, label: {
+                Text("Register")
+            })
+        }
+        .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
+            Button("OK", role: .cancel) {}
+        }
         .onAppear {
             store.send(.onAppear)
         }
