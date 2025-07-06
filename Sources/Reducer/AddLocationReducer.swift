@@ -6,11 +6,11 @@
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
-import _PhotosUI_SwiftUI
 import ComposableArchitecture
 import MapKit
 import Photos
 import PhotosUI
+import SwiftUI
 
 @Reducer
 struct AddLocationReducer {
