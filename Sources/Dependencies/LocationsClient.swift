@@ -36,14 +36,14 @@ struct LocationsClient {
     typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
     typealias SignInProvider = @Sendable (String, String) async throws -> Void
     typealias RegisterUserProvider = @Sendable (String, String) async throws -> Void
-    typealias ResetPaswordProvider = @Sendable (String) async throws -> Void
+    typealias ResetPasswordProvider = @Sendable (String) async throws -> Void
 
     let setup: PrepareProvider
     let locations: LocationsProvider
     let addLocation: LocationAddProvider
     let signIn: SignInProvider
     let registerUser: RegisterUserProvider
-    let resetPassword: ResetPaswordProvider
+    let resetPassword: ResetPasswordProvider
 }
 
 extension DependencyValues {
