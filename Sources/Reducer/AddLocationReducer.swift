@@ -27,11 +27,12 @@ struct AddLocationReducer {
         static let initialState = State()
 
         var name = ""
+
         var location = CLLocationCoordinate2D()
 
         var showPhotosPicker = false
         var selectedPhotos: PhotosPickerItem?
-        var photo = Data()
+        var photo: Data?
     }
 
     enum Action {
@@ -41,7 +42,7 @@ struct AddLocationReducer {
         case selectLocation
         case showPhotosPicker(Bool)
         case selectedPhotos(PhotosPickerItem?)
-        case photoLoaded(Data)
+        case photoLoaded(Data?)
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -62,7 +63,7 @@ struct AddLocationReducer {
                 return .none
             case let .selectedPhotos(value):
                 return .run { send in
-                    let photo = try await value?.loadTransferable(type: Data.self) ?? .init()
+                    let photo = try await value?.loadTransferable(type: Data.self)
                     await send(.photoLoaded(photo))
                 }
             case let .photoLoaded(value):

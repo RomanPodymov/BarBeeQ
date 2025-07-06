@@ -40,7 +40,7 @@ extension LocationsClient {
                 latitude: location.location.latitude,
                 longitude: location.location.longitude
             ),
-            "photo": location.photo.base64EncodedString(),
+            "photo": location.photo?.base64EncodedString(),
         ])
     }, signIn: { email, password in
         try await Auth.auth().signIn(withEmail: email, password: password)

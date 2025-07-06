@@ -11,7 +11,10 @@ import MapKit
 import SwiftUI
 import TCACoordinators
 
-func createImage(_ value: Data) -> Image {
+func createImage(_ value: Data?) -> Image {
+    guard let value else {
+        return Image("some_default")
+    }
     #if canImport(UIKit)
         let songArtwork = UIImage(data: value) ?? UIImage()
         return Image(uiImage: songArtwork)
