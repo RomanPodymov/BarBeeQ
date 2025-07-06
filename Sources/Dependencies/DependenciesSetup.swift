@@ -24,17 +24,17 @@ extension LocationsClient: DependencyKey {
     private static let dummy = {
         let locationsStorage = ThreadSafeArray<BarBeeQLocation>()
 
-        return LocationsClient(locations: {
+        return LocationsClient(setup: {}, locations: {
             await locationsStorage.data
         }, addLocation: { location in
             let locations = await locationsStorage.data
             await locationsStorage.set(data: locations + [location])
-        })
+        }, signIn: { _, _ in
+        }, registerUser: { _, _ in
+        }, resetPassword: { _ in })
     }()
 
-    private static let backendless = dummy
-
-    static let liveValue = backendless
+    static let liveValue = firebase
 }
 
 extension LocationsClient: TestDependencyKey {

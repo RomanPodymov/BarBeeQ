@@ -8,6 +8,9 @@
 
 import ComposableArchitecture
 import MapKit
+import Photos
+import PhotosUI
+import SwiftUI
 
 @Reducer
 struct AddLocationReducer {
@@ -25,6 +28,10 @@ struct AddLocationReducer {
 
         var name = ""
         var location = CLLocationCoordinate2D()
+
+        var showPhotosPicker = false
+        var selectedPhotos: PhotosPickerItem?
+        var photo = Data()
     }
 
     enum Action {
@@ -32,6 +39,9 @@ struct AddLocationReducer {
         case locationAdded
         case nameChanged(String)
         case selectLocation
+        case showPhotosPicker(Bool)
+        case selectedPhotos(PhotosPickerItem?)
+        case photoLoaded(Data)
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -46,6 +56,17 @@ struct AddLocationReducer {
                 }
             case let .nameChanged(name):
                 state.name = name
+                return .none
+            case let .showPhotosPicker(value):
+                state.showPhotosPicker = value
+                return .none
+            case let .selectedPhotos(value):
+                return .run { send in
+                    let photo = try await value?.loadTransferable(type: Data.self) ?? .init()
+                    await send(.photoLoaded(photo))
+                }
+            case let .photoLoaded(value):
+                state.photo = value
                 return .none
             default:
                 return .none

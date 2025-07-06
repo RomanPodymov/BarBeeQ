@@ -11,12 +11,14 @@ import SwiftUI
 
 @main
 struct BarBeeQApp: App {
-    let store: Store<MainTabCoordinator.State, MainTabCoordinator.Action>
+    let store = Store(initialState: .initialState) {
+        MainTabCoordinator()
+    }
+
+    @Dependency(\.locationsClient) var locationsClient
 
     init() {
-        store = Store(initialState: .initialState) {
-            MainTabCoordinator()
-        }
+        locationsClient.setup()
     }
 
     var body: some Scene {

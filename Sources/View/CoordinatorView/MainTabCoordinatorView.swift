@@ -19,15 +19,17 @@ struct MainTabCoordinatorView: View {
                 .tabItem { Text("tab.map.title") }
                 .tag(MainTabCoordinator.Tab.map)
 
-            LocationsListView(store: .init(initialState: .initialState, reducer: {
-                MapReducer()
-            }))
+            LocationsListView(
+                store: .init(initialState: .initialState, reducer: { MapReducer() })
+            )
             .tabItem { Text("tab.list.title") }
             .tag(MainTabCoordinator.Tab.list)
 
-            Text("screen.profile.dummyText")
-                .tabItem { Text("tab.profile.title") }
-                .tag(MainTabCoordinator.Tab.profile)
+            ProfileView(
+                store: .init(initialState: .initialState, reducer: { ProfileReducer() })
+            )
+            .tabItem { Text("tab.profile.title") }
+            .tag(MainTabCoordinator.Tab.profile)
         }
     }
 }
