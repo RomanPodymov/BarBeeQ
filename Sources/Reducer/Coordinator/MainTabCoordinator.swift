@@ -11,11 +11,12 @@ import ComposableArchitecture
 @Reducer
 struct MainTabCoordinator {
     enum Tab: Hashable {
-        case map, list, profile
+        case map, list, user
     }
 
     enum Action {
         case map(MapCoordinator.Action)
+        case user(UserCoordinator.Action)
         case tabSelected(Tab)
     }
 
@@ -23,16 +24,22 @@ struct MainTabCoordinator {
     struct State: Equatable {
         static let initialState = State(
             map: .initialState,
+            user: .initialState,
             selectedTab: .map
         )
 
         var map: MapCoordinator.State
+        var user: UserCoordinator.State
+
         var selectedTab: Tab
     }
 
     var body: some ReducerOf<Self> {
         Scope(state: \.map, action: \.map) {
             MapCoordinator()
+        }
+        Scope(state: \.user, action: \.user) {
+            UserCoordinator()
         }
         Reduce { state, action in
             switch action {
