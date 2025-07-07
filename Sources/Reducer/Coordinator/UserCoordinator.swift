@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
-    case signIn(ProfileReducer)
+    case signIn(SignInReducer)
 }
 
 enum UserScreenId {
@@ -36,9 +36,6 @@ struct UserCoordinator {
         )
 
         var routes: IdentifiedArrayOf<Route<UserScreen.State>>
-
-        // var addLocationState = AddLocationReducer.State.initialState
-        // var mapSelection = MapSelectionReducer.State.initialState
     }
 
     enum Action {

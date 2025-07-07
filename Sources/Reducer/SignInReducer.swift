@@ -1,5 +1,5 @@
 //
-//  ProfileReducer.swift
+//  SignInReducer.swift
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 03/07/2025.
@@ -9,7 +9,7 @@
 import ComposableArchitecture
 
 @Reducer
-struct ProfileReducer {
+struct SignInReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()

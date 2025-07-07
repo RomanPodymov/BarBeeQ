@@ -17,7 +17,7 @@ struct UserCoordinatorView: View {
         TCARouter(store.scope(state: \.routes, action: \.router)) { screen in
             switch screen.case {
             case let .signIn(store):
-                ProfileView(
+                SignInView(
                     store: store
                 )
             }

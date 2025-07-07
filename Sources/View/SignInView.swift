@@ -1,5 +1,5 @@
 //
-//  ProfileView.swift
+//  SignInView.swift
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 03/07/2025.
@@ -10,8 +10,8 @@ import ComposableArchitecture
 import SwiftUI
 import TCACoordinators
 
-struct ProfileView: View {
-    @Bindable var store: StoreOf<ProfileReducer>
+struct SignInView: View {
+    @Bindable var store: StoreOf<SignInReducer>
 
     var body: some View {
         VStack {
