@@ -14,12 +14,16 @@ struct RegisterReducer {
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
 
+        var login = ""
+        var password = ""
         var showingAlert = false
     }
 
     enum Action {
-        case onSignIn(email: String, password: String)
+        case loginChanged(String)
+        case passwordChanged(String)
         case onRegister(email: String, password: String)
+        case onRegisterSuccess
         case error(Bool)
     }
 
@@ -28,24 +32,25 @@ struct RegisterReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .onSignIn(email, password):
-                return .run { send in
-                    do {
-                        try await locationsClient.signIn(email, password)
-                    } catch {
-                        await send(.error(true))
-                    }
-                }
+            case let .loginChanged(value):
+                state.login = value
+                return .none
+            case let .passwordChanged(value):
+                state.password = value
+                return .none
             case let .onRegister(email: email, password: password):
                 return .run { send in
                     do {
                         try await locationsClient.registerUser(email, password)
+                        await send(.onRegisterSuccess)
                     } catch {
                         await send(.error(true))
                     }
                 }
             case let .error(value):
                 state.showingAlert = value
+                return .none
+            default:
                 return .none
             }
         }

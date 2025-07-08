@@ -15,8 +15,10 @@ struct RegisterView: View {
 
     var body: some View {
         VStack {
+            TextEditor(text: $store.login.sending(\.loginChanged))
+            TextEditor(text: $store.password.sending(\.passwordChanged))
             Button(action: {
-                store.send(.onRegister(email: "", password: ""))
+                store.send(.onRegister(email: store.login, password: store.password))
             }, label: {
                 Text("Register")
             })
