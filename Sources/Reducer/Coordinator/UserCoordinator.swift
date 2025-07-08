@@ -40,8 +40,6 @@ struct UserCoordinator {
         )
 
         var routes: IdentifiedArrayOf<Route<UserScreen.State>>
-        
-        var signInState = SignInReducer.State.initialState
     }
 
     enum Action {
@@ -55,7 +53,9 @@ struct UserCoordinator {
                 state.routes.push(.register(.initialState))
                 return .none
             case .router(.routeAction(_, action: .register(.onRegisterSuccess))):
-                state.routes.goBackTo(id: .signIn)
+                state.routes = [
+                    .root(.signIn(.initialState), embedInNavigationView: true),
+                ]
                 return .none
             default:
                 return .none
