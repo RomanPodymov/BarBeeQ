@@ -20,6 +20,11 @@ struct UserCoordinatorView: View {
                 SignInView(
                     store: store
                 )
+
+            case let .register(store):
+                RegisterView(
+                    store: store
+                )
             }
         }
     }

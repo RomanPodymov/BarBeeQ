@@ -1,8 +1,8 @@
 //
-//  SignInView.swift
+//  RegisterView.swift
 //  BarBeeQ
 //
-//  Created by Roman Podymov on 03/07/2025.
+//  Created by Roman Podymov on 08/07/2025.
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
@@ -10,18 +10,13 @@ import ComposableArchitecture
 import SwiftUI
 import TCACoordinators
 
-struct SignInView: View {
-    @Bindable var store: StoreOf<SignInReducer>
+struct RegisterView: View {
+    @Bindable var store: StoreOf<RegisterReducer>
 
     var body: some View {
         VStack {
             Button(action: {
-                store.send(.onSignIn(email: "", password: ""))
-            }, label: {
-                Text("Sign in")
-            })
-            Button(action: {
-                store.send(.onRegister)
+                store.send(.onRegister(email: "", password: ""))
             }, label: {
                 Text("Register")
             })

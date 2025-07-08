@@ -1,15 +1,15 @@
 //
-//  SignInReducer.swift
+//  RegisterReducer.swift
 //  BarBeeQ
 //
-//  Created by Roman Podymov on 03/07/2025.
+//  Created by Roman Podymov on 08/07/2025.
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
 import ComposableArchitecture
 
 @Reducer
-struct SignInReducer {
+struct RegisterReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
@@ -19,7 +19,7 @@ struct SignInReducer {
 
     enum Action {
         case onSignIn(email: String, password: String)
-        case onRegister
+        case onRegister(email: String, password: String)
         case error(Bool)
     }
 
@@ -36,10 +36,16 @@ struct SignInReducer {
                         await send(.error(true))
                     }
                 }
+            case let .onRegister(email: email, password: password):
+                return .run { send in
+                    do {
+                        try await locationsClient.registerUser(email, password)
+                    } catch {
+                        await send(.error(true))
+                    }
+                }
             case let .error(value):
                 state.showingAlert = value
-                return .none
-            default:
                 return .none
             }
         }

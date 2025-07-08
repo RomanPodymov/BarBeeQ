@@ -12,10 +12,12 @@ import ComposableArchitecture
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
     case signIn(SignInReducer)
+    case register(RegisterReducer)
 }
 
 enum UserScreenId {
     case signIn
+    case register
 }
 
 extension UserScreen.State: Identifiable {
@@ -23,6 +25,8 @@ extension UserScreen.State: Identifiable {
         switch self {
         case .signIn:
             .signIn
+        case .register:
+            .register
         }
     }
 }
@@ -43,10 +47,13 @@ struct UserCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
+            case .router(.routeAction(_, action: .signIn(.onRegister))):
+                state.routes.push(.register(.initialState))
+                return .none
             default:
-                .none
+                return .none
             }
         }
         .forEachRoute(\.routes, action: \.router)
