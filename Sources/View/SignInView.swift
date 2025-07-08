@@ -15,8 +15,10 @@ struct SignInView: View {
 
     var body: some View {
         VStack {
+            TextEditor(text: $store.login.sending(\.loginChanged))
+            TextEditor(text: $store.password.sending(\.passwordChanged))
             Button(action: {
-                store.send(.onSignIn(email: "", password: ""))
+                store.send(.onSignIn(email: store.login, password: store.password))
             }, label: {
                 Text("Sign in")
             })
