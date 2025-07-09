@@ -30,6 +30,11 @@ struct UserCoordinatorView: View {
                 RegisterView(
                     store: store
                 )
+
+            case let .loading(store):
+                LoadingView(
+                    store: store
+                )
             }
         }
     }
