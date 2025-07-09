@@ -41,7 +41,7 @@ extension LocationsClient {
                 longitude: location.location.longitude
             ),
             "photo": {
-                let encodedImage = location.photo?.base64EncodedString()
+                let encodedImage = location.photo?.base64EncodedString() ?? ""
                 return encodedImage
             }(),
         ])
