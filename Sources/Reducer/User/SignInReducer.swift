@@ -41,6 +41,8 @@ struct SignInReducer {
                 return .none
             case let .onSignIn(email, password):
                 return .run { send in
+                    let val = locationsClient.isSignedIn()
+                    print(val)
                     do {
                         try await locationsClient.signIn(email, password)
                         await send(.onSignInSuccess)

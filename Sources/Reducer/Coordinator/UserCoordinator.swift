@@ -12,11 +12,13 @@ import ComposableArchitecture
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
     case signIn(SignInReducer)
+    case signOut(SignOutReducer)
     case register(RegisterReducer)
 }
 
 enum UserScreenId {
     case signIn
+    case signOut
     case register
 }
 
@@ -25,6 +27,8 @@ extension UserScreen.State: Identifiable {
         switch self {
         case .signIn:
             .signIn
+        case .signOut:
+            .signOut
         case .register:
             .register
         }
@@ -37,7 +41,14 @@ struct UserCoordinator {
     struct State: Equatable, Sendable {
         static let initialState = State(
             routes: [.root(.signIn(.initialState), embedInNavigationView: true)]
-        )
+        ) /* /{
+             @Dependency(\.locationsClient) var locationsClient
+             return locationsClient.isSignedIn() ? State(
+                 routes: [.root(.signIn(.initialState), embedInNavigationView: true)]
+             ) : State(
+                 routes: [.root(.signOut(.initialState), embedInNavigationView: true)]
+             )
+         }() */
 
         var routes: IdentifiedArrayOf<Route<UserScreen.State>>
     }

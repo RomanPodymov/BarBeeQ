@@ -21,6 +21,11 @@ struct UserCoordinatorView: View {
                     store: store
                 )
 
+            case let .signOut(store):
+                SignOutView(
+                    store: store
+                )
+
             case let .register(store):
                 RegisterView(
                     store: store
