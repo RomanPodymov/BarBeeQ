@@ -25,11 +25,9 @@ struct MainTabCoordinatorView: View {
             .tabItem { Text("tab.list.title") }
             .tag(MainTabCoordinator.Tab.list)
 
-            ProfileView(
-                store: .init(initialState: .initialState, reducer: { ProfileReducer() })
-            )
-            .tabItem { Text("tab.profile.title") }
-            .tag(MainTabCoordinator.Tab.profile)
+            UserCoordinatorView(store: store.scope(state: \.user, action: \.user))
+                .tabItem { Text("tab.profile.title") }
+                .tag(MainTabCoordinator.Tab.user)
         }
     }
 }

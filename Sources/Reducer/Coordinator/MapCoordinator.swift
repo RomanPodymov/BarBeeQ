@@ -69,6 +69,9 @@ struct MapCoordinator {
             case let .router(.routeAction(_, action: .newLocation(.nameChanged(name)))):
                 state.addLocationState.name = name
                 return .none
+            case let .router(.routeAction(_, action: .newLocation(.photoLoaded(photo)))):
+                state.addLocationState.photo = photo
+                return .none
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
                 state.addLocationState.location = location
                 state.routes = State.initialState.routes + [

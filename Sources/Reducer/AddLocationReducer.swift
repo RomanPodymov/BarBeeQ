@@ -27,21 +27,25 @@ struct AddLocationReducer {
         static let initialState = State()
 
         var name = ""
+
         var location = CLLocationCoordinate2D()
 
         var showPhotosPicker = false
         var selectedPhotos: PhotosPickerItem?
-        var photo = Data()
+        var photo: Data?
+
+        var showingAlert = false
     }
 
     enum Action {
-        case add(BarBeeQLocation)
-        case locationAdded
         case nameChanged(String)
         case selectLocation
         case showPhotosPicker(Bool)
         case selectedPhotos(PhotosPickerItem?)
-        case photoLoaded(Data)
+        case photoLoaded(Data?)
+        case add(BarBeeQLocation)
+        case locationAdded
+        case error(Bool)
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -51,8 +55,12 @@ struct AddLocationReducer {
             switch action {
             case let .add(location):
                 return .run { send in
-                    try await locationsClient.addLocation(location)
-                    await send(.locationAdded)
+                    do {
+                        try await locationsClient.addLocation(location)
+                        await send(.locationAdded)
+                    } catch {
+                        await send(.error(true))
+                    }
                 }
             case let .nameChanged(name):
                 state.name = name
@@ -62,11 +70,18 @@ struct AddLocationReducer {
                 return .none
             case let .selectedPhotos(value):
                 return .run { send in
-                    let photo = try await value?.loadTransferable(type: Data.self) ?? .init()
-                    await send(.photoLoaded(photo))
+                    do {
+                        let photo = try await value?.loadTransferable(type: Data.self)
+                        await send(.photoLoaded(photo))
+                    } catch {
+                        await send(.error(true))
+                    }
                 }
             case let .photoLoaded(value):
                 state.photo = value
+                return .none
+            case let .error(value):
+                state.showingAlert = value
                 return .none
             default:
                 return .none

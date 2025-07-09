@@ -22,7 +22,7 @@ struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {
 
     let name: String
     let location: CLLocationCoordinate2D
-    let photo: Data
+    let photo: Data?
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

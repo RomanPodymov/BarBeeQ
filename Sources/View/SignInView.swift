@@ -1,5 +1,5 @@
 //
-//  ProfileView.swift
+//  SignInView.swift
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 03/07/2025.
@@ -10,18 +10,20 @@ import ComposableArchitecture
 import SwiftUI
 import TCACoordinators
 
-struct ProfileView: View {
-    @Bindable var store: StoreOf<ProfileReducer>
+struct SignInView: View {
+    @Bindable var store: StoreOf<SignInReducer>
 
     var body: some View {
         VStack {
+            TextEditor(text: $store.login.sending(\.loginChanged))
+            SecureField("Password", text: $store.password.sending(\.passwordChanged))
             Button(action: {
-                store.send(.onSignIn(email: "", password: ""))
+                store.send(.onSignIn(email: store.login, password: store.password))
             }, label: {
                 Text("Sign in")
             })
             Button(action: {
-                store.send(.onRegister(email: "", password: ""))
+                store.send(.onRegister)
             }, label: {
                 Text("Register")
             })

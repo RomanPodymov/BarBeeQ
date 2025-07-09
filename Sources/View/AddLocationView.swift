@@ -69,6 +69,9 @@ struct AddLocationView: View {
                 Text("Add location")
             }
         }
+        .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
+            Button("OK", role: .cancel) {}
+        }
         .photosPicker(
             isPresented: $store.showPhotosPicker.sending(\.showPhotosPicker),
             selection: $store.selectedPhotos.sending(\.selectedPhotos)
