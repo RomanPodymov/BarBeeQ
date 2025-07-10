@@ -1,5 +1,5 @@
 //
-//  LoadingView.swift
+//  InitialLoadingView.swift
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 09/07/2025.
@@ -7,12 +7,10 @@
 //
 
 import ComposableArchitecture
-import MapKit
 import SwiftUI
-import TCACoordinators
 
-struct LoadingView: View {
-    var store: StoreOf<LoadingReducer>
+struct InitialLoadingView: View {
+    var store: StoreOf<InitialLoadingReducer>
 
     var body: some View {
         ProgressView()

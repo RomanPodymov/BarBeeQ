@@ -1,5 +1,5 @@
 //
-//  LoadingReducer.swift
+//  InitialLoadingReducer.swift
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 09/07/2025.
@@ -9,7 +9,7 @@
 import ComposableArchitecture
 
 @Reducer
-struct LoadingReducer {
+struct InitialLoadingReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
@@ -23,7 +23,7 @@ struct LoadingReducer {
     @Dependency(\.locationsClient) var locationsClient
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { store, action in
             switch action {
             case .onAppear:
                 .run { send in
