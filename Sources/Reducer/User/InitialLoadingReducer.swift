@@ -23,11 +23,12 @@ struct InitialLoadingReducer {
     @Dependency(\.locationsClient) var locationsClient
 
     var body: some ReducerOf<Self> {
-        Reduce { store, action in
+        Reduce { _, action in
             switch action {
             case .onAppear:
                 .run { send in
-                    await send(.isSignedIn(true))
+                    let isSignedInValue = locationsClient.isSignedIn()
+                    await send(.isSignedIn(isSignedInValue))
                 }
             default:
                 .none

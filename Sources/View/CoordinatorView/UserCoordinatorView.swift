@@ -32,7 +32,7 @@ struct UserCoordinatorView: View {
                 )
 
             case let .loading(store):
-                LoadingView(
+                InitialLoadingView(
                     store: store
                 )
             }
