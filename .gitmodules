@@ -1,0 +1,3 @@
+[submodule "CommonLoadingScreen"]
+	path = Sources/CommonLoadingScreen
+	url = https://gist.github.com/de3ca31d179294f79b814378057fc797.git

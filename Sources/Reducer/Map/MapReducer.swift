@@ -15,7 +15,9 @@ struct MapReducer {
         static let initialState = State(
             data: []
         )
+
         var data: [BarBeeQLocation]
+        var isLoading = false
     }
 
     enum Action {
@@ -31,11 +33,13 @@ struct MapReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
+                state.isLoading = true
                 return .run { send in
                     let locations = try await locationsClient.locations()
                     await send(.received(locations))
                 }
             case let .received(data):
+                state.isLoading = false
                 state.data = data
                 return .none
             default:

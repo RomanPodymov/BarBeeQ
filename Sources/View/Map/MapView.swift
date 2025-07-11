@@ -64,6 +64,7 @@ struct MapView: View {
                 }
             }
         }
+        .loadingIndicator(store.isLoading)
         .onAppear {
             store.send(.onAppear)
         }
