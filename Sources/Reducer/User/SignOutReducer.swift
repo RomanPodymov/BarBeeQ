@@ -19,6 +19,7 @@ struct SignOutReducer {
 
     enum Action {
         case signOut
+        case signOutSuccess
         case error(Bool)
     }
 
@@ -31,6 +32,7 @@ struct SignOutReducer {
                 return .run { send in
                     do {
                         try await locationsClient.signOut()
+                        await send(.signOutSuccess)
                     } catch {
                         await send(.error(true))
                     }

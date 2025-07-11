@@ -16,9 +16,9 @@ struct SignOutView: View {
     var body: some View {
         VStack {
             Button(action: {
-                // store.send(.onRegister)
+                store.send(.signOut)
             }, label: {
-                Text("Register")
+                Text("Sign out")
             })
         }
         .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {

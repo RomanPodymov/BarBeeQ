@@ -60,12 +60,14 @@ struct UserCoordinator {
             case .router(.routeAction(_, action: .signIn(.onRegister))):
                 state.routes.push(.register(.initialState))
                 return .none
-            case .router(.routeAction(_, action: .loading(.isSignedIn(false)))):
+            case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
+                 .router(.routeAction(_, action: .signOut(.signOutSuccess))):
                 state.routes = [
                     .root(.signIn(.initialState), embedInNavigationView: true),
                 ]
                 return .none
-            case .router(.routeAction(_, action: .loading(.isSignedIn(true)))):
+            case .router(.routeAction(_, action: .loading(.isSignedIn(true)))),
+                 .router(.routeAction(_, action: .signIn(.onSignInSuccess))):
                 state.routes = [
                     .root(.signOut(.initialState), embedInNavigationView: true),
                 ]
