@@ -32,7 +32,7 @@ extension LocationsClient: DependencyKey {
         }, signIn: { _, _ in
         }, isSignedIn: {
             true
-        }, registerUser: { _, _ in
+        }, signOut: {}, registerUser: { _, _ in
         }, resetPassword: { _ in })
     }()
 

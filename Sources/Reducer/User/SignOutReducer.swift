@@ -18,6 +18,7 @@ struct SignOutReducer {
     }
 
     enum Action {
+        case signOut
         case error(Bool)
     }
 
@@ -26,6 +27,14 @@ struct SignOutReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .signOut:
+                return .run { send in
+                    do {
+                        try await locationsClient.signOut()
+                    } catch {
+                        await send(.error(true))
+                    }
+                }
             case let .error(value):
                 state.showingAlert = value
                 return .none

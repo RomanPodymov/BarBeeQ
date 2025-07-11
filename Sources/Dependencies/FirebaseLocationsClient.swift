@@ -49,6 +49,8 @@ extension LocationsClient {
         try await Auth.auth().signIn(withEmail: email, password: password)
     }, isSignedIn: {
         Auth.auth().currentUser != nil
+    }, signOut: {
+        try Auth.auth().signOut()
     }, registerUser: { email, password in
         try await Auth.auth().createUser(withEmail: email, password: password)
     }, resetPassword: { email in
