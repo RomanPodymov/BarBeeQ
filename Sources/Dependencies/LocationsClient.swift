@@ -17,7 +17,8 @@ struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.name == rhs.name &&
             lhs.location.latitude == rhs.location.latitude &&
-            lhs.location.longitude == rhs.location.longitude
+            lhs.location.longitude == rhs.location.longitude &&
+            lhs.photo == rhs.photo
     }
 
     let name: String
@@ -35,6 +36,8 @@ struct LocationsClient {
     typealias LocationsProvider = @Sendable () async throws -> [BarBeeQLocation]
     typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
     typealias SignInProvider = @Sendable (String, String) async throws -> Void
+    typealias IsSignedInProvider = @Sendable () -> Bool
+    typealias SignOutProvider = @Sendable () async throws -> Void
     typealias RegisterUserProvider = @Sendable (String, String) async throws -> Void
     typealias ResetPasswordProvider = @Sendable (String) async throws -> Void
 
@@ -42,6 +45,8 @@ struct LocationsClient {
     let locations: LocationsProvider
     let addLocation: LocationAddProvider
     let signIn: SignInProvider
+    let isSignedIn: IsSignedInProvider
+    let signOut: SignOutProvider
     let registerUser: RegisterUserProvider
     let resetPassword: ResetPasswordProvider
 }

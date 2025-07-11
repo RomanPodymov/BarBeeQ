@@ -30,7 +30,9 @@ extension LocationsClient: DependencyKey {
             let locations = await locationsStorage.data
             await locationsStorage.set(data: locations + [location])
         }, signIn: { _, _ in
-        }, registerUser: { _, _ in
+        }, isSignedIn: {
+            true
+        }, signOut: {}, registerUser: { _, _ in
         }, resetPassword: { _ in })
     }()
 

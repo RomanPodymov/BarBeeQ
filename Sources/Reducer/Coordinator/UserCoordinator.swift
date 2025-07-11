@@ -12,12 +12,16 @@ import ComposableArchitecture
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
     case signIn(SignInReducer)
+    case signOut(SignOutReducer)
     case register(RegisterReducer)
+    case loading(InitialLoadingReducer)
 }
 
 enum UserScreenId {
     case signIn
+    case signOut
     case register
+    case loading
 }
 
 extension UserScreen.State: Identifiable {
@@ -25,8 +29,12 @@ extension UserScreen.State: Identifiable {
         switch self {
         case .signIn:
             .signIn
+        case .signOut:
+            .signOut
         case .register:
             .register
+        case .loading:
+            .loading
         }
     }
 }
@@ -36,7 +44,7 @@ struct UserCoordinator {
     @ObservableState
     struct State: Equatable, Sendable {
         static let initialState = State(
-            routes: [.root(.signIn(.initialState), embedInNavigationView: true)]
+            routes: [.root(.loading(.initialState), embedInNavigationView: true)]
         )
 
         var routes: IdentifiedArrayOf<Route<UserScreen.State>>
@@ -51,6 +59,18 @@ struct UserCoordinator {
             switch action {
             case .router(.routeAction(_, action: .signIn(.onRegister))):
                 state.routes.push(.register(.initialState))
+                return .none
+            case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
+                 .router(.routeAction(_, action: .signOut(.signOutSuccess))):
+                state.routes = [
+                    .root(.signIn(.initialState), embedInNavigationView: true),
+                ]
+                return .none
+            case .router(.routeAction(_, action: .loading(.isSignedIn(true)))),
+                 .router(.routeAction(_, action: .signIn(.onSignInSuccess))):
+                state.routes = [
+                    .root(.signOut(.initialState), embedInNavigationView: true),
+                ]
                 return .none
             case .router(.routeAction(_, action: .register(.onRegisterSuccess))):
                 state.routes = [
