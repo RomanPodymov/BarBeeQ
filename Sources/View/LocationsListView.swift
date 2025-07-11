@@ -41,7 +41,7 @@ struct LocationsListView: View {
                 }
             }
         }
-        .loadingIndicator(true)
+        .loadingIndicator(store.isLoading)
         .onAppear {
             store.send(.onAppear)
         }
