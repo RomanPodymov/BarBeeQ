@@ -15,7 +15,15 @@ struct BarBeeQTests {
     @Dependency(\.locationsClient) var locationsClient
 
     @Test
-    func some() async throws {
-        try await locationsClient.locations()
+    func test() async throws {
+        let nextLocation = BarBeeQLocation(
+            name: "name",
+            location: .init(latitude: 1, longitude: 2),
+            photo: nil
+        )
+        let locations = try await locationsClient.locations()
+        #expect(!locations.contains(nextLocation))
+        try await locationsClient.addLocation(nextLocation)
+        #expect(locations.contains(nextLocation))
     }
 }
