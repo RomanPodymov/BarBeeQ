@@ -17,7 +17,8 @@ struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.name == rhs.name &&
             lhs.location.latitude == rhs.location.latitude &&
-            lhs.location.longitude == rhs.location.longitude
+            lhs.location.longitude == rhs.location.longitude &&
+            lhs.photo == rhs.photo
     }
 
     let name: String

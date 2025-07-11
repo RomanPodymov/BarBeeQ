@@ -16,14 +16,20 @@ struct BarBeeQTests {
 
     @Test
     func test() async throws {
+        // Given
         let nextLocation = BarBeeQLocation(
             name: "name",
             location: .init(latitude: 1, longitude: 2),
             photo: nil
         )
-        let locations = try await locationsClient.locations()
-        #expect(!locations.contains(nextLocation))
+
+        // When
+        let locationsBeforeAdd = try await locationsClient.locations()
         try await locationsClient.addLocation(nextLocation)
-        #expect(locations.contains(nextLocation))
+        let locationsAfterAdd = try await locationsClient.locations()
+
+        // Then
+        #expect(!locationsBeforeAdd.contains(nextLocation))
+        #expect(locationsAfterAdd.contains(nextLocation))
     }
 }
