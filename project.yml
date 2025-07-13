@@ -10,7 +10,7 @@ packages:
     version: 1.20.2
   TCACoordinators:
     url: https://github.com/johnpatrickmorgan/TCACoordinators.git
-    version: 0.12.1
+    version: 0.13.0
   FirebaseFirestore:
     url: https://github.com/firebase/firebase-ios-sdk.git
     version: 11.15.0
