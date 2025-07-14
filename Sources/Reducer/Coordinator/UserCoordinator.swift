@@ -14,6 +14,7 @@ enum UserScreen {
     case signIn(SignInReducer)
     case signOut(SignOutReducer)
     case register(RegisterReducer)
+    case resetPassword(ResetPasswordReducer)
     case loading(InitialLoadingReducer)
 }
 
@@ -21,6 +22,7 @@ enum UserScreenId {
     case signIn
     case signOut
     case register
+    case resetPassword
     case loading
 }
 
@@ -33,6 +35,8 @@ extension UserScreen.State: Identifiable {
             .signOut
         case .register:
             .register
+        case .resetPassword:
+            .resetPassword
         case .loading:
             .loading
         }
@@ -59,6 +63,9 @@ struct UserCoordinator {
             switch action {
             case .router(.routeAction(_, action: .signIn(.onRegister))):
                 state.routes.push(.register(.initialState))
+                return .none
+            case .router(.routeAction(_, action: .signIn(.onResetPassword))):
+                state.routes.push(.resetPassword(.initialState))
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
                  .router(.routeAction(_, action: .signOut(.signOutSuccess))):

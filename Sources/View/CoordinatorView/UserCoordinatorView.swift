@@ -31,6 +31,11 @@ struct UserCoordinatorView: View {
                     store: store
                 )
 
+            case let .resetPassword(store):
+                ResetPasswordView(
+                    store: store
+                )
+
             case let .loading(store):
                 InitialLoadingView(
                     store: store

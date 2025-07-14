@@ -27,6 +27,11 @@ struct SignInView: View {
             }, label: {
                 Text("Register")
             })
+            Button(action: {
+                store.send(.onResetPassword)
+            }, label: {
+                Text("Reset password")
+            })
         }
         .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
             Button("OK", role: .cancel) {}
