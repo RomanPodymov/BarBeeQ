@@ -15,8 +15,10 @@ struct SignInView: View {
 
     var body: some View {
         VStack {
-            TextEditor(text: $store.login.sending(\.loginChanged))
+            TextField("Login", text: $store.login.sending(\.loginChanged))
+                .asCustomField()
             SecureField("Password", text: $store.password.sending(\.passwordChanged))
+                .asCustomField()
             Button(action: {
                 store.send(.onSignIn(email: store.login, password: store.password))
             }, label: {
@@ -36,5 +38,21 @@ struct SignInView: View {
         .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
             Button("OK", role: .cancel) {}
         }
+    }
+}
+
+struct CustomField: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .frame(height: 200)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .cornerRadius(16)
+            .padding([.leading, .trailing], 24)
+    }
+}
+
+extension View {
+    func asCustomField() -> some View {
+        modifier(CustomField())
     }
 }
