@@ -16,6 +16,7 @@ struct RegisterReducer {
 
         var login = ""
         var password = ""
+        var isLoading = false
         var showingAlert = false
     }
 
@@ -39,6 +40,7 @@ struct RegisterReducer {
                 state.password = value
                 return .none
             case let .onRegister(email: email, password: password):
+                state.isLoading = true
                 return .run { send in
                     do {
                         try await locationsClient.registerUser(email, password)
@@ -48,6 +50,7 @@ struct RegisterReducer {
                     }
                 }
             case let .error(value):
+                state.isLoading = false
                 state.showingAlert = value
                 return .none
             default:

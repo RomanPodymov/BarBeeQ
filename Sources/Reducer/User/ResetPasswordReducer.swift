@@ -15,6 +15,7 @@ struct ResetPasswordReducer {
         static let initialState = State()
 
         var email = ""
+        var isLoading = false
         var showingAlert = false
     }
 
@@ -34,6 +35,7 @@ struct ResetPasswordReducer {
                 state.email = value
                 return .none
             case let .onResetPassword(email: email):
+                state.isLoading = true
                 return .run { send in
                     do {
                         try await locationsClient.resetPassword(email)
@@ -43,6 +45,7 @@ struct ResetPasswordReducer {
                     }
                 }
             case let .error(value):
+                state.isLoading = false
                 state.showingAlert = value
                 return .none
             default:

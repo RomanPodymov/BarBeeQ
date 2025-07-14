@@ -14,6 +14,7 @@ struct SignOutReducer {
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
 
+        var isLoading = false
         var showingAlert = false
     }
 
@@ -29,6 +30,7 @@ struct SignOutReducer {
         Reduce { state, action in
             switch action {
             case .signOut:
+                state.isLoading = true
                 return .run { send in
                     do {
                         try await locationsClient.signOut()
@@ -38,6 +40,7 @@ struct SignOutReducer {
                     }
                 }
             case let .error(value):
+                state.isLoading = false
                 state.showingAlert = value
                 return .none
             default:

@@ -22,6 +22,7 @@ struct ResetPasswordView: View {
                 Text("Reset password")
             })
         }
+        .loadingIndicator(store.isLoading)
         .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
             Button("OK", role: .cancel) {}
         }

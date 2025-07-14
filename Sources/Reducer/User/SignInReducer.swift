@@ -16,6 +16,7 @@ struct SignInReducer {
 
         var login = ""
         var password = ""
+        var isLoading = false
         var showingAlert = false
     }
 
@@ -41,6 +42,7 @@ struct SignInReducer {
                 state.password = value
                 return .none
             case let .onSignIn(email, password):
+                state.isLoading = true
                 return .run { send in
                     do {
                         try await locationsClient.signIn(email, password)
@@ -50,6 +52,7 @@ struct SignInReducer {
                     }
                 }
             case let .error(value):
+                state.isLoading = false
                 state.showingAlert = value
                 return .none
             default:
