@@ -75,7 +75,7 @@ struct MapCoordinator {
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
                 state.addLocationState.location = location
                 state.routes = State.initialState.routes + [
-                    .push(.newLocation(state.addLocationState)),
+                    .push(.newLocation(state.addLocationState))
                 ]
                 return .none
             default:
