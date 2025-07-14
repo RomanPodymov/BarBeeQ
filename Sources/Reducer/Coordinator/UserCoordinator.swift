@@ -12,7 +12,7 @@ import ComposableArchitecture
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
     case signIn(SignInReducer)
-    case signOut(SignOutReducer)
+    case signOut(CombinedSignOutReducer)
     case register(RegisterReducer)
     case resetPassword(ResetPasswordReducer)
     case loading(InitialLoadingReducer)
@@ -68,7 +68,7 @@ struct UserCoordinator {
                 state.routes.push(.resetPassword(.initialState))
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
-                 .router(.routeAction(_, action: .signOut(.signOutSuccess))):
+                 .router(.routeAction(_, action: .signOut(.signOut(.signOutSuccess)))):
                 state.routes = [
                     .root(.signIn(.initialState), embedInNavigationView: true)
                 ]

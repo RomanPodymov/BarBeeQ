@@ -11,18 +11,18 @@ import SwiftUI
 import TCACoordinators
 
 struct SignOutView: View {
-    @Bindable var store: StoreOf<SignOutReducer>
+    @Bindable var store: StoreOf<CombinedSignOutReducer>
 
     var body: some View {
         VStack {
             Button(action: {
-                store.send(.signOut)
+                store.send(.signOut(.signOut))
             }, label: {
                 Text("Sign out")
             })
         }
-        .loadingIndicator(store.isLoading)
-        .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
+        .loadingIndicator(store.signOut.isLoading)
+        .alert("Error", isPresented: $store.error.showingAlert.sending(\.error.error)) {
             Button("OK", role: .cancel) {}
         }
     }
