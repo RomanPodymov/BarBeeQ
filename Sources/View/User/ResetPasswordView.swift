@@ -16,6 +16,7 @@ struct ResetPasswordView: View {
     var body: some View {
         VStack {
             TextField("Email", text: $store.email.sending(\.emailChanged))
+                .asCustomField()
             Button(action: {
                 store.send(.onResetPassword(email: store.email))
             }, label: {

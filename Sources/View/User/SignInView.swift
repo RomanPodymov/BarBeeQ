@@ -41,19 +41,3 @@ struct SignInView: View {
         }
     }
 }
-
-struct CustomField: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .frame(height: 200)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .cornerRadius(16)
-            .padding([.leading, .trailing], 24)
-    }
-}
-
-extension View {
-    func asCustomField() -> some View {
-        modifier(CustomField())
-    }
-}
