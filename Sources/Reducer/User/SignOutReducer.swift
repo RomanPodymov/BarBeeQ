@@ -59,11 +59,11 @@ struct CombinedSignOutReducer {
 
     var body: some ReducerOf<Self> {
         Scope(state: \.error, action: \.error) {
-             ErrorReducer()
-         }
-         Scope(state: \.signOut, action: \.signOut) {
-             SignOutReducer()
-         }
+            ErrorReducer()
+        }
+        Scope(state: \.signOut, action: \.signOut) {
+            SignOutReducer()
+        }
         Reduce { _, action in
             switch action {
             case .signOut(.signOut):
