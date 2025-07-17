@@ -13,10 +13,10 @@ packages:
     version: 0.13.0
   FirebaseFirestore:
     url: https://github.com/firebase/firebase-ios-sdk.git
-    version: 11.15.0
+    version: 12.0.0
   FirebaseAuth:
     url: https://github.com/firebase/firebase-ios-sdk.git
-    version: 11.15.0
+    version: 12.0.0
 targets:
   BarBeeQApp:
     settings:

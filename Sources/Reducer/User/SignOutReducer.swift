@@ -19,14 +19,21 @@ struct ErrorReducer {
     }
 
     enum Action {
+        case startLoading
+        case endLoading
         case error(Bool)
     }
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
+            case .startLoading:
+                state.isLoading = true
+                return .none
+            case .endLoading:
+                state.isLoading = false
+                return .none
             case let .error(value):
-                // state.isLoading = false
                 state.showingAlert = value
                 return .none
             }
@@ -44,6 +51,7 @@ struct SignOutReducer {
     enum Action {
         case signOut
         case signOutSuccess
+        case signOutFailed
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -57,7 +65,7 @@ struct SignOutReducer {
                         try await locationsClient.signOut()
                         await send(.signOutSuccess)
                     } catch {
-                        // await send(.error(true))
+                        await send(.signOutFailed)
                     }
                 }
             default:
@@ -84,10 +92,25 @@ struct CombinedSignOutReducer {
 
     var body: some ReducerOf<Self> {
         Scope(state: \.error, action: \.error) {
-            ErrorReducer()
-        }
-        Scope(state: \.signOut, action: \.signOut) {
-            SignOutReducer()
+             ErrorReducer()
+         }
+         Scope(state: \.signOut, action: \.signOut) {
+             SignOutReducer()
+         }
+        Reduce { _, action in
+            switch action {
+            case .signOut(.signOut):
+                .run { send in
+                    await send(.error(.startLoading))
+                }
+            case .signOut(.signOutFailed):
+                .run { send in
+                    await send(.error(.endLoading))
+                    await send(.error(.error(true)))
+                }
+            default:
+                .none
+            }
         }
     }
 }
