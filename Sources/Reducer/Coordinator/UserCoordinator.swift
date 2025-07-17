@@ -12,7 +12,7 @@ import ComposableArchitecture
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
     case signIn(SignInReducer)
-    case signOut(CombinedSignOutReducer)
+    case signOut(FullSignOutReducer)
     case register(RegisterReducer)
     case resetPassword(ResetPasswordReducer)
     case loading(InitialLoadingReducer)

@@ -11,7 +11,7 @@ import SwiftUI
 import TCACoordinators
 
 struct SignOutView: View {
-    @Bindable var store: StoreOf<CombinedSignOutReducer>
+    @Bindable var store: StoreOf<FullSignOutReducer>
 
     var body: some View {
         VStack {
