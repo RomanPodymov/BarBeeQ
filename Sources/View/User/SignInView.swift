@@ -15,8 +15,10 @@ struct SignInView: View {
 
     var body: some View {
         VStack {
-            TextEditor(text: $store.login.sending(\.loginChanged))
+            TextField("Login", text: $store.login.sending(\.loginChanged))
+                .asCustomField()
             SecureField("Password", text: $store.password.sending(\.passwordChanged))
+                .asCustomField()
             Button(action: {
                 store.send(.onSignIn(email: store.login, password: store.password))
             }, label: {
@@ -27,7 +29,13 @@ struct SignInView: View {
             }, label: {
                 Text("Register")
             })
+            Button(action: {
+                store.send(.onResetPassword)
+            }, label: {
+                Text("Reset password")
+            })
         }
+        .loadingIndicator(store.isLoading)
         .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
             Button("OK", role: .cancel) {}
         }

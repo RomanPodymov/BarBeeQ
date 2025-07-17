@@ -1,32 +1,28 @@
 //
-//  SignInReducer.swift
+//  ResetPasswordReducer.swift
 //  BarBeeQ
 //
-//  Created by Roman Podymov on 03/07/2025.
+//  Created by Roman Podymov on 14/07/2025.
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
 import ComposableArchitecture
 
 @Reducer
-struct SignInReducer {
+struct ResetPasswordReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
 
-        var login = ""
-        var password = ""
+        var email = ""
         var isLoading = false
         var showingAlert = false
     }
 
     enum Action {
-        case loginChanged(String)
-        case passwordChanged(String)
-        case onSignIn(email: String, password: String)
-        case onSignInSuccess
-        case onRegister
-        case onResetPassword
+        case emailChanged(String)
+        case onResetPassword(email: String)
+        case onResetPasswordSuccess
         case error(Bool)
     }
 
@@ -35,18 +31,15 @@ struct SignInReducer {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case let .loginChanged(value):
-                state.login = value
+            case let .emailChanged(value):
+                state.email = value
                 return .none
-            case let .passwordChanged(value):
-                state.password = value
-                return .none
-            case let .onSignIn(email, password):
+            case let .onResetPassword(email: email):
                 state.isLoading = true
                 return .run { send in
                     do {
-                        try await locationsClient.signIn(email, password)
-                        await send(.onSignInSuccess)
+                        try await locationsClient.resetPassword(email)
+                        await send(.onResetPasswordSuccess)
                     } catch {
                         await send(.error(true))
                     }

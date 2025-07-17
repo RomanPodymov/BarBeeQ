@@ -13,35 +13,30 @@ struct SignOutReducer {
     @ObservableState
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
-
-        var showingAlert = false
     }
 
     enum Action {
         case signOut
         case signOutSuccess
-        case error(Bool)
+        case signOutFailed
     }
 
     @Dependency(\.locationsClient) var locationsClient
 
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
             case .signOut:
-                return .run { send in
+                .run { send in
                     do {
                         try await locationsClient.signOut()
                         await send(.signOutSuccess)
                     } catch {
-                        await send(.error(true))
+                        await send(.signOutFailed)
                     }
                 }
-            case let .error(value):
-                state.showingAlert = value
-                return .none
             default:
-                return .none
+                .none
             }
         }
     }

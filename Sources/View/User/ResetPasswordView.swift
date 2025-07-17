@@ -1,8 +1,8 @@
 //
-//  RegisterView.swift
+//  ResetPasswordView.swift
 //  BarBeeQ
 //
-//  Created by Roman Podymov on 08/07/2025.
+//  Created by Roman Podymov on 14/07/2025.
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
@@ -10,19 +10,17 @@ import ComposableArchitecture
 import SwiftUI
 import TCACoordinators
 
-struct RegisterView: View {
-    @Bindable var store: StoreOf<RegisterReducer>
+struct ResetPasswordView: View {
+    @Bindable var store: StoreOf<ResetPasswordReducer>
 
     var body: some View {
         VStack {
-            TextField("Login", text: $store.login.sending(\.loginChanged))
-                .asCustomField()
-            SecureField("Password", text: $store.password.sending(\.passwordChanged))
+            TextField("Email", text: $store.email.sending(\.emailChanged))
                 .asCustomField()
             Button(action: {
-                store.send(.onRegister(email: store.login, password: store.password))
+                store.send(.onResetPassword(email: store.email))
             }, label: {
-                Text("Register")
+                Text("Reset password")
             })
         }
         .loadingIndicator(store.isLoading)
