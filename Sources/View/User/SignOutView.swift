@@ -21,8 +21,8 @@ struct SignOutView: View {
                 Text("Sign out")
             })
         }
-        .loadingIndicator(store.error.isLoading)
-        .alert("Error", isPresented: $store.error.showingAlert.sending(\.error.error)) {
+        .loadingIndicator(store.basic.isLoading)
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
             Button("OK", role: .cancel) {}
         }
     }

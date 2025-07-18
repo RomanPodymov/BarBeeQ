@@ -14,18 +14,18 @@ struct FullSignOutReducer {
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
 
-        var error = ErrorReducer.State.initialState
+        var basic = BasicReducer.State.initialState
         var signOut = SignOutReducer.State.initialState
     }
 
     enum Action {
-        case error(ErrorReducer.Action)
+        case basic(BasicReducer.Action)
         case signOut(SignOutReducer.Action)
     }
 
     var body: some ReducerOf<Self> {
-        Scope(state: \.error, action: \.error) {
-            ErrorReducer()
+        Scope(state: \.basic, action: \.basic) {
+            BasicReducer()
         }
         Scope(state: \.signOut, action: \.signOut) {
             SignOutReducer()
@@ -34,12 +34,12 @@ struct FullSignOutReducer {
             switch action {
             case .signOut(.signOut):
                 .run { send in
-                    await send(.error(.startLoading))
+                    await send(.basic(.startLoading))
                 }
             case .signOut(.signOutFailed):
                 .run { send in
-                    await send(.error(.endLoading))
-                    await send(.error(.error(true)))
+                    await send(.basic(.endLoading))
+                    await send(.basic(.error(true)))
                 }
             default:
                 .none
