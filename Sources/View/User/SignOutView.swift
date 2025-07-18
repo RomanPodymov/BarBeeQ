@@ -16,7 +16,7 @@ struct SignOutView: View {
     var body: some View {
         VStack {
             Button(action: {
-                store.send(.signOut(.signOut))
+                store.send(.custom(.signOut))
             }, label: {
                 Text("Sign out")
             })
