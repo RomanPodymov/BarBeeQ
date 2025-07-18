@@ -16,13 +16,13 @@ struct SignOutView: View {
     var body: some View {
         VStack {
             Button(action: {
-                store.send(.signOut(.signOut))
+                store.send(.custom(.signOut))
             }, label: {
                 Text("Sign out")
             })
         }
-        .loadingIndicator(store.error.isLoading)
-        .alert("Error", isPresented: $store.error.showingAlert.sending(\.error.error)) {
+        .loadingIndicator(store.basic.isLoading)
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
             Button("OK", role: .cancel) {}
         }
     }

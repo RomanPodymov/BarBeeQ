@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct SignOutReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Hashable {
         static let initialState = State()
     }
 

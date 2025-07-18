@@ -14,32 +14,36 @@ struct FullSignOutReducer {
     struct State: Equatable, Hashable, Sendable {
         static let initialState = State()
 
-        var error = ErrorReducer.State.initialState
-        var signOut = SignOutReducer.State.initialState
+        var basic = BasicReducer.State.initialState
+        var custom = SignOutReducer.State.initialState
     }
 
     enum Action {
-        case error(ErrorReducer.Action)
-        case signOut(SignOutReducer.Action)
+        case basic(BasicReducer.Action)
+        case custom(SignOutReducer.Action)
     }
 
     var body: some ReducerOf<Self> {
-        Scope(state: \.error, action: \.error) {
-            ErrorReducer()
+        Scope(state: \.basic, action: \.basic) {
+            BasicReducer()
         }
-        Scope(state: \.signOut, action: \.signOut) {
+        Scope(state: \.custom, action: \.custom) {
             SignOutReducer()
         }
         Reduce { _, action in
             switch action {
-            case .signOut(.signOut):
+            case .custom(.signOut):
                 .run { send in
-                    await send(.error(.startLoading))
+                    await send(.basic(.startLoading))
                 }
-            case .signOut(.signOutFailed):
+            case .custom(.signOutSuccess):
                 .run { send in
-                    await send(.error(.endLoading))
-                    await send(.error(.error(true)))
+                    await send(.basic(.endLoading))
+                }
+            case .custom(.signOutFailed):
+                .run { send in
+                    await send(.basic(.endLoading))
+                    await send(.basic(.error(true)))
                 }
             default:
                 .none
