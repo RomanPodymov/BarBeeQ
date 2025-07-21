@@ -21,6 +21,7 @@ struct ResetPasswordReducer {
 
     enum Action {
         case emailChanged(String)
+
         case onResetPassword(email: String)
         case onResetPasswordSuccess
         case error(Bool)

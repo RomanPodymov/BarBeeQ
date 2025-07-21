@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
-    case signIn(SignInReducer)
+    case signIn(FullSignInReducer)
     case signOut(FullSignOutReducer)
     case register(FullRegisterReducer)
     case resetPassword(ResetPasswordReducer)
@@ -61,12 +61,12 @@ struct UserCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .router(.routeAction(_, action: .signIn(.onRegister))):
-                state.routes.push(.register(.initialState))
-                return .none
-            case .router(.routeAction(_, action: .signIn(.onResetPassword))):
-                state.routes.push(.resetPassword(.initialState))
-                return .none
+            /* case .router(.routeAction(_, action: .custom(.signIn(.onRegister)))):
+                 state.routes.push(.register(.initialState))
+                 return .none
+             case .router(.routeAction(_, action: .signIn(.onResetPassword))):
+                 state.routes.push(.resetPassword(.initialState))
+                 return .none */
             case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
                  .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))):
                 state.routes = [
@@ -74,7 +74,7 @@ struct UserCoordinator {
                 ]
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(true)))),
-                 .router(.routeAction(_, action: .signIn(.onSignInSuccess))):
+                 .router(.routeAction(_, action: .signIn(.custom(.signInSuccess)))):
                 state.routes = [
                     .root(.signOut(.initialState), embedInNavigationView: true)
                 ]

@@ -16,18 +16,18 @@ struct SignInReducer {
 
         var login = ""
         var password = ""
-        var isLoading = false
-        var showingAlert = false
     }
 
     enum Action {
         case loginChanged(String)
         case passwordChanged(String)
-        case onSignIn(email: String, password: String)
-        case onSignInSuccess
+
+        case signIn(email: String, password: String)
+        case signInSuccess
+        case signInFailed
+
         case onRegister
         case onResetPassword
-        case error(Bool)
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -41,20 +41,15 @@ struct SignInReducer {
             case let .passwordChanged(value):
                 state.password = value
                 return .none
-            case let .onSignIn(email, password):
-                state.isLoading = true
+            case let .signIn(email, password):
                 return .run { send in
                     do {
                         try await locationsClient.signIn(email, password)
-                        await send(.onSignInSuccess)
+                        await send(.signInSuccess)
                     } catch {
-                        await send(.error(true))
+                        await send(.signInFailed)
                     }
                 }
-            case let .error(value):
-                state.isLoading = false
-                state.showingAlert = value
-                return .none
             default:
                 return .none
             }

@@ -21,6 +21,7 @@ struct RegisterReducer {
     enum Action {
         case loginChanged(String)
         case passwordChanged(String)
+
         case register(email: String, password: String)
         case registerSuccess
         case registerFailed
