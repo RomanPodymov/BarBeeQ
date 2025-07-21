@@ -16,16 +16,14 @@ struct RegisterReducer {
 
         var login = ""
         var password = ""
-        var isLoading = false
-        var showingAlert = false
     }
 
     enum Action {
         case loginChanged(String)
         case passwordChanged(String)
-        case onRegister(email: String, password: String)
-        case onRegisterSuccess
-        case error(Bool)
+        case register(email: String, password: String)
+        case registerSuccess
+        case registerFailed
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -39,20 +37,15 @@ struct RegisterReducer {
             case let .passwordChanged(value):
                 state.password = value
                 return .none
-            case let .onRegister(email: email, password: password):
-                state.isLoading = true
+            case let .register(email: email, password: password):
                 return .run { send in
                     do {
                         try await locationsClient.registerUser(email, password)
-                        await send(.onRegisterSuccess)
+                        await send(.registerSuccess)
                     } catch {
-                        await send(.error(true))
+                        await send(.registerFailed)
                     }
                 }
-            case let .error(value):
-                state.isLoading = false
-                state.showingAlert = value
-                return .none
             default:
                 return .none
             }

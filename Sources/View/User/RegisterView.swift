@@ -11,22 +11,22 @@ import SwiftUI
 import TCACoordinators
 
 struct RegisterView: View {
-    @Bindable var store: StoreOf<RegisterReducer>
+    @Bindable var store: StoreOf<FullRegisterReducer>
 
     var body: some View {
         VStack {
-            TextField("Login", text: $store.login.sending(\.loginChanged))
+            TextField("Login", text: $store.custom.login.sending(\.custom.loginChanged))
                 .asCustomField()
-            SecureField("Password", text: $store.password.sending(\.passwordChanged))
+            SecureField("Password", text: $store.custom.password.sending(\.custom.passwordChanged))
                 .asCustomField()
             Button(action: {
-                store.send(.onRegister(email: store.login, password: store.password))
+                store.send(.custom(.register(email: store.custom.login, password: store.custom.password)))
             }, label: {
                 Text("Register")
             })
         }
-        .loadingIndicator(store.isLoading)
-        .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
+        .loadingIndicator(store.basic.isLoading)
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
             Button("OK", role: .cancel) {}
         }
     }
