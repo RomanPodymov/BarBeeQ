@@ -15,7 +15,7 @@ import SwiftUI
 @Reducer
 struct AddLocationReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Equatable, Hashable {
         static func == (lhs: AddLocationReducer.State, rhs: AddLocationReducer.State) -> Bool {
             lhs.name == rhs.name
         }

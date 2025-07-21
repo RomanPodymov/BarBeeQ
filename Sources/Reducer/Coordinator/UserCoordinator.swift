@@ -46,7 +46,7 @@ extension UserScreen.State: Identifiable {
 @Reducer
 struct UserCoordinator {
     @ObservableState
-    struct State: Equatable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State(
             routes: [.root(.loading(.initialState), embedInNavigationView: true)]
         )
@@ -61,12 +61,12 @@ struct UserCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            /* case .router(.routeAction(_, action: .custom(.signIn(.onRegister)))):
-                 state.routes.push(.register(.initialState))
-                 return .none
-             case .router(.routeAction(_, action: .signIn(.onResetPassword))):
-                 state.routes.push(.resetPassword(.initialState))
-                 return .none */
+            case .router(.routeAction(_, action: .signIn(.custom(.onRegister)))):
+                state.routes.push(.register(.initialState))
+                return .none
+            case .router(.routeAction(_, action: .signIn(.custom(.onResetPassword)))):
+                state.routes.push(.resetPassword(.initialState))
+                return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
                  .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))):
                 state.routes = [

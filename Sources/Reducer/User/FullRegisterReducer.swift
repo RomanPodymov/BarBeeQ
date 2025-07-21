@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct FullRegisterReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State()
 
         var basic = BasicReducer.State.initialState

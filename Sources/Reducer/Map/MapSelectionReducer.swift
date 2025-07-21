@@ -12,7 +12,7 @@ import MapKit
 @Reducer
 struct MapSelectionReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State()
     }
 

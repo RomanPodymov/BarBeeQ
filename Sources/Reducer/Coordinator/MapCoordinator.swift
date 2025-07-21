@@ -38,7 +38,7 @@ extension MapScreen.State: Identifiable {
 @Reducer
 struct MapCoordinator {
     @ObservableState
-    struct State: Equatable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State(
             routes: [.root(.map(.initialState), embedInNavigationView: true)]
         )

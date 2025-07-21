@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct RegisterReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State()
 
         var login = ""
