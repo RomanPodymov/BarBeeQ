@@ -11,20 +11,20 @@ import SwiftUI
 import TCACoordinators
 
 struct ResetPasswordView: View {
-    @Bindable var store: StoreOf<ResetPasswordReducer>
+    @Bindable var store: StoreOf<FullResetPasswordReducer>
 
     var body: some View {
         VStack {
-            TextField("Email", text: $store.email.sending(\.emailChanged))
+            TextField("Email", text: $store.custom.email.sending(\.custom.emailChanged))
                 .asCustomField()
             Button(action: {
-                store.send(.onResetPassword(email: store.email))
+                store.send(.custom(.resetPassword(email: store.custom.email)))
             }, label: {
                 Text("Reset password")
             })
         }
-        .loadingIndicator(store.isLoading)
-        .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
+        .loadingIndicator(store.basic.isLoading)
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
             Button("OK", role: .cancel) {}
         }
     }

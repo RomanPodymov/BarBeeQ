@@ -14,7 +14,7 @@ enum UserScreen {
     case signIn(FullSignInReducer)
     case signOut(FullSignOutReducer)
     case register(FullRegisterReducer)
-    case resetPassword(ResetPasswordReducer)
+    case resetPassword(FullResetPasswordReducer)
     case loading(InitialLoadingReducer)
 }
 
@@ -79,12 +79,12 @@ struct UserCoordinator {
                     .root(.signOut(.initialState), embedInNavigationView: true)
                 ]
                 return .none
-            case .router(.routeAction(_, action: .register(.custom(.registerSuccess)))),
-                 .router(.routeAction(_, action: .resetPassword(.onResetPasswordSuccess))):
-                state.routes = [
-                    .root(.signIn(.initialState), embedInNavigationView: true)
-                ]
-                return .none
+            /* case .router(.routeAction(_, action: .register(.custom(.registerSuccess)))),
+              .router(.routeAction(_, action: .resetPassword(.onResetPasswordSuccess))):
+             state.routes = [
+                 .root(.signIn(.initialState), embedInNavigationView: true)
+             ]
+             return .none */
             default:
                 return .none
             }
