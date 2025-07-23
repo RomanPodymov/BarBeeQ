@@ -11,10 +11,10 @@ import ComposableArchitecture
 
 @Reducer(state: .equatable, .hashable, .sendable)
 enum UserScreen {
-    case signIn(SignInReducer)
+    case signIn(FullSignInReducer)
     case signOut(FullSignOutReducer)
-    case register(RegisterReducer)
-    case resetPassword(ResetPasswordReducer)
+    case register(FullRegisterReducer)
+    case resetPassword(FullResetPasswordReducer)
     case loading(InitialLoadingReducer)
 }
 
@@ -46,7 +46,7 @@ extension UserScreen.State: Identifiable {
 @Reducer
 struct UserCoordinator {
     @ObservableState
-    struct State: Equatable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State(
             routes: [.root(.loading(.initialState), embedInNavigationView: true)]
         )
@@ -61,26 +61,26 @@ struct UserCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .router(.routeAction(_, action: .signIn(.onRegister))):
+            case .router(.routeAction(_, action: .signIn(.custom(.onRegister)))):
                 state.routes.push(.register(.initialState))
                 return .none
-            case .router(.routeAction(_, action: .signIn(.onResetPassword))):
+            case .router(.routeAction(_, action: .signIn(.custom(.onResetPassword)))):
                 state.routes.push(.resetPassword(.initialState))
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
-                 .router(.routeAction(_, action: .signOut(.signOut(.signOutSuccess)))):
+                 .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))):
                 state.routes = [
                     .root(.signIn(.initialState), embedInNavigationView: true)
                 ]
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(true)))),
-                 .router(.routeAction(_, action: .signIn(.onSignInSuccess))):
+                 .router(.routeAction(_, action: .signIn(.custom(.signInSuccess)))):
                 state.routes = [
                     .root(.signOut(.initialState), embedInNavigationView: true)
                 ]
                 return .none
-            case .router(.routeAction(_, action: .register(.onRegisterSuccess))),
-                 .router(.routeAction(_, action: .resetPassword(.onResetPasswordSuccess))):
+            case .router(.routeAction(_, action: .register(.custom(.registerSuccess)))),
+                 .router(.routeAction(_, action: .resetPassword(.custom(.resetPasswordSuccess)))):
                 state.routes = [
                     .root(.signIn(.initialState), embedInNavigationView: true)
                 ]

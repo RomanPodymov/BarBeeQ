@@ -11,32 +11,32 @@ import SwiftUI
 import TCACoordinators
 
 struct SignInView: View {
-    @Bindable var store: StoreOf<SignInReducer>
+    @Bindable var store: StoreOf<FullSignInReducer>
 
     var body: some View {
         VStack {
-            TextField("Login", text: $store.login.sending(\.loginChanged))
+            TextField("Login", text: $store.custom.login.sending(\.custom.loginChanged))
                 .asCustomField()
-            SecureField("Password", text: $store.password.sending(\.passwordChanged))
+            SecureField("Password", text: $store.custom.password.sending(\.custom.passwordChanged))
                 .asCustomField()
             Button(action: {
-                store.send(.onSignIn(email: store.login, password: store.password))
+                store.send(.custom(.signIn(email: store.custom.login, password: store.custom.password)))
             }, label: {
                 Text("Sign in")
             })
             Button(action: {
-                store.send(.onRegister)
+                store.send(.custom(.onRegister))
             }, label: {
                 Text("Register")
             })
             Button(action: {
-                store.send(.onResetPassword)
+                store.send(.custom(.onResetPassword))
             }, label: {
                 Text("Reset password")
             })
         }
-        .loadingIndicator(store.isLoading)
-        .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
+        .loadingIndicator(store.basic.isLoading)
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
             Button("OK", role: .cancel) {}
         }
     }

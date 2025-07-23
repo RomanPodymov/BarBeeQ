@@ -11,19 +11,18 @@ import ComposableArchitecture
 @Reducer
 struct ResetPasswordReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State()
 
         var email = ""
-        var isLoading = false
-        var showingAlert = false
     }
 
     enum Action {
         case emailChanged(String)
-        case onResetPassword(email: String)
-        case onResetPasswordSuccess
-        case error(Bool)
+
+        case resetPassword(email: String)
+        case resetPasswordSuccess
+        case resetPasswordFailed
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -34,20 +33,15 @@ struct ResetPasswordReducer {
             case let .emailChanged(value):
                 state.email = value
                 return .none
-            case let .onResetPassword(email: email):
-                state.isLoading = true
+            case let .resetPassword(email: email):
                 return .run { send in
                     do {
                         try await locationsClient.resetPassword(email)
-                        await send(.onResetPasswordSuccess)
+                        await send(.resetPasswordSuccess)
                     } catch {
-                        await send(.error(true))
+                        await send(.resetPasswordFailed)
                     }
                 }
-            case let .error(value):
-                state.isLoading = false
-                state.showingAlert = value
-                return .none
             default:
                 return .none
             }

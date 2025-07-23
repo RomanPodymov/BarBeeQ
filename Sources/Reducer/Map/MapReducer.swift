@@ -11,7 +11,7 @@ import ComposableArchitecture
 @Reducer
 struct MapReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State(
             data: []
         )

@@ -1,5 +1,5 @@
 //
-//  ErrorReducer.swift
+//  BasicReducer.swift
 //  BarBeeQ
 //
 //  Created by Roman Podymov on 17/07/2025.
@@ -9,9 +9,9 @@
 import ComposableArchitecture
 
 @Reducer
-struct ErrorReducer {
+struct BasicReducer {
     @ObservableState
-    struct State: Equatable, Hashable, Sendable {
+    struct State: Equatable, Hashable {
         static let initialState = State()
 
         var isLoading = false

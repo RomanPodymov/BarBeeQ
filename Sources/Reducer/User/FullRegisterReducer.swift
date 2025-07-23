@@ -1,26 +1,26 @@
 //
-//  FullSignOutReducer.swift
+//  FullRegisterReducer.swift
 //  BarBeeQ
 //
-//  Created by Roman Podymov on 17/07/2025.
+//  Created by Roman Podymov on 21/07/2025.
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
 import ComposableArchitecture
 
 @Reducer
-struct FullSignOutReducer {
+struct FullRegisterReducer {
     @ObservableState
     struct State: Equatable, Hashable {
         static let initialState = State()
 
         var basic = BasicReducer.State.initialState
-        var custom = SignOutReducer.State.initialState
+        var custom = RegisterReducer.State.initialState
     }
 
     enum Action {
         case basic(BasicReducer.Action)
-        case custom(SignOutReducer.Action)
+        case custom(RegisterReducer.Action)
     }
 
     var body: some ReducerOf<Self> {
@@ -28,19 +28,19 @@ struct FullSignOutReducer {
             BasicReducer()
         }
         Scope(state: \.custom, action: \.custom) {
-            SignOutReducer()
+            RegisterReducer()
         }
         Reduce { _, action in
             switch action {
-            case .custom(.signOut):
+            case .custom(.register):
                 .run { send in
                     await send(.basic(.startLoading))
                 }
-            case .custom(.signOutSuccess):
+            case .custom(.registerSuccess):
                 .run { send in
                     await send(.basic(.endLoading))
                 }
-            case .custom(.signOutFailed):
+            case .custom(.registerFailed):
                 .run { send in
                     await send(.basic(.endLoading))
                     await send(.basic(.error(true)))

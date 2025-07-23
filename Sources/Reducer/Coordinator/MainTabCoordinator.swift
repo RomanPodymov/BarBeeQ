@@ -45,7 +45,7 @@ struct MainTabCoordinator {
             switch action {
             case let .tabSelected(tab):
                 state.selectedTab = tab
-            case .user(.router(.routeAction(_, action: .signIn(.onSignInSuccess)))):
+            case .user(.router(.routeAction(_, action: .signIn(.custom(.signInSuccess))))):
                 state.selectedTab = .map
             default:
                 break
