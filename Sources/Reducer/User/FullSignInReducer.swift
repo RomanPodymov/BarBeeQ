@@ -32,6 +32,19 @@ struct FullSignInReducer {
         }
         Reduce { _, action in
             switch action {
+            case .custom(.signIn):
+                .run { send in
+                    await send(.basic(.startLoading))
+                }
+            case .custom(.signInSuccess):
+                .run { send in
+                    await send(.basic(.endLoading))
+                }
+            case .custom(.signInFailed):
+                .run { send in
+                    await send(.basic(.endLoading))
+                    await send(.basic(.error(true)))
+                }
             default:
                 .none
             }
