@@ -25,29 +25,29 @@ struct LocationView: View {
 }
 
 struct AddLocationView: View {
-    @Bindable var store: StoreOf<AddLocationReducer>
+    @Bindable var store: StoreOf<FullAddLocationReducer>
 
     var body: some View {
         VStack {
-            TextEditor(text: $store.name.sending(\.nameChanged))
+            TextEditor(text: $store.custom.name.sending(\.custom.nameChanged))
 
             Button {
                 store.send(
-                    .showPhotosPicker(true)
+                    .custom(.showPhotosPicker(true))
                 )
             } label: {
                 Text("Select photo")
             }
 
-            createImage(store.photo)
+            createImage(store.custom.photo)
                 .resizable()
                 .frame(width: 100, height: 100)
 
-            LocationView(store.location)
+            LocationView(store.custom.location)
 
             Button {
                 store.send(
-                    .selectLocation
+                    .custom(.selectLocation)
                 )
             } label: {
                 Text("Select location")
@@ -57,24 +57,24 @@ struct AddLocationView: View {
 
             Button {
                 store.send(
-                    .add(
+                    .custom(.add(
                         .init(
-                            name: store.name,
-                            location: store.location,
-                            photo: store.photo
+                            name: store.custom.name,
+                            location: store.custom.location,
+                            photo: store.custom.photo
                         )
-                    )
+                    ))
                 )
             } label: {
                 Text("Add location")
             }
         }
-        .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
             Button("OK", role: .cancel) {}
         }
-        .photosPicker(
-            isPresented: $store.showPhotosPicker.sending(\.showPhotosPicker),
-            selection: $store.selectedPhotos.sending(\.selectedPhotos)
-        )
+        /* .photosPicker(
+             isPresented: $store.showPhotosPicker.sending(\.custom.showPhotosPicker),
+             selection: $store.selectedPhotos.sending(\.custom.selectedPhotos)
+         ) */
     }
 }
