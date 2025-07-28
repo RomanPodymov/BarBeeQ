@@ -12,11 +12,10 @@ import Testing
 
 @Suite
 struct BarBeeQTests {
-    @Dependency(\.locationsClient) var locationsClient
-
     @Test
-    func test() async throws {
+    func testAddLocation() async throws {
         // Given
+        @Dependency(\.locationsClient) var locationsClient
         let nextLocation = BarBeeQLocation(
             name: "name",
             location: .init(latitude: 1, longitude: 2),
@@ -31,5 +30,30 @@ struct BarBeeQTests {
         // Then
         #expect(!locationsBeforeAdd.contains(nextLocation))
         #expect(locationsAfterAdd.contains(nextLocation))
+    }
+
+    @MainActor
+    @Test
+    func fullAddLocationReducerNameChanged() async throws {
+        // Given
+        let someName = "Hello"
+        let store: StoreOf<FullAddLocationReducer> = .init(initialState: .initialState) {
+            FullAddLocationReducer()
+        }
+
+        // When
+        let name = await withCheckedContinuation { continuation in
+            var cancellable: Any!
+            cancellable = store.publisher.sink { state in
+                if state.custom.name == someName, cancellable != nil {
+                    continuation.resume(returning: someName)
+                    cancellable = nil
+                }
+            }
+            store.send(.custom(.nameChanged(someName)))
+        }
+
+        // Then
+        #expect(name == someName)
     }
 }
