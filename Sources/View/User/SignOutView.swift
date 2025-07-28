@@ -20,6 +20,12 @@ struct SignOutView: View {
             }, label: {
                 Text("Sign out")
             })
+
+            Button(action: {
+                store.send(.custom(.deleteAccount))
+            }, label: {
+                Text("Delete account")
+            })
         }
         .loadingIndicator(store.basic.isLoading)
         .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {

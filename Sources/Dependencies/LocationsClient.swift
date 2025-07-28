@@ -40,6 +40,7 @@ struct LocationsClient {
     typealias SignOutProvider = @Sendable () async throws -> Void
     typealias RegisterUserProvider = @Sendable (String, String) async throws -> Void
     typealias ResetPasswordProvider = @Sendable (String) async throws -> Void
+    typealias DeleteAccountProvider = @Sendable () async throws -> Void
 
     let setup: PrepareProvider
     let locations: LocationsProvider
@@ -49,6 +50,7 @@ struct LocationsClient {
     let signOut: SignOutProvider
     let registerUser: RegisterUserProvider
     let resetPassword: ResetPasswordProvider
+    let deleteAccount: DeleteAccountProvider
 }
 
 extension DependencyValues {

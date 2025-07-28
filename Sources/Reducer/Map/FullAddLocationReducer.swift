@@ -32,7 +32,7 @@ struct FullAddLocationReducer {
         }
         Reduce { _, action in
             switch action {
-            case .custom(.selectedPhotos):
+            case .custom(.selectedPhotos), .custom(.add):
                 .run { send in
                     await send(.basic(.startLoading))
                 }
