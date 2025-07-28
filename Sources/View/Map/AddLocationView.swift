@@ -69,12 +69,13 @@ struct AddLocationView: View {
                 Text("Add location")
             }
         }
+        .loadingIndicator(store.basic.isLoading)
         .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
             Button("OK", role: .cancel) {}
         }
-        /* .photosPicker(
-             isPresented: $store.showPhotosPicker.sending(\.custom.showPhotosPicker),
-             selection: $store.selectedPhotos.sending(\.custom.selectedPhotos)
-         ) */
+        .photosPicker(
+            isPresented: $store.custom.showPhotosPicker.sending(\.custom.showPhotosPicker),
+            selection: $store.custom.selectedPhotos.sending(\.custom.selectedPhotos)
+        )
     }
 }

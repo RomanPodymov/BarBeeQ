@@ -30,24 +30,24 @@ struct FullAddLocationReducer {
         Scope(state: \.custom, action: \.custom) {
             AddLocationReducer()
         }
-        /* Reduce { _, action in
-             switch action {
-             case .custom(.register):
-                 .run { send in
-                     await send(.basic(.startLoading))
-                 }
-             case .custom(.registerSuccess):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                 }
-             case .custom(.registerFailed):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                     await send(.basic(.error(true)))
-                 }
-             default:
-                 .none
-             }
-         } */
+        Reduce { _, action in
+            switch action {
+            case .custom(.selectedPhotos):
+                .run { send in
+                    await send(.basic(.startLoading))
+                }
+            case .custom(.photoLoaded):
+                .run { send in
+                    await send(.basic(.endLoading))
+                }
+            case .custom(.addLocationFailed), .custom(.selectPhotoFailed):
+                .run { send in
+                    await send(.basic(.endLoading))
+                    await send(.basic(.error(true)))
+                }
+            default:
+                .none
+            }
+        }
     }
 }
