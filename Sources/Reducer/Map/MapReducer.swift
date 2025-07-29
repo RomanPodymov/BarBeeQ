@@ -16,6 +16,7 @@ struct MapReducer {
             data: []
         )
 
+        var isSignedIn: Bool?
         var data: [BarBeeQLocation]
         var isLoading = false
     }
