@@ -6,6 +6,7 @@
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
+import Combine
 import ComposableArchitecture
 
 actor ThreadSafeArray<T> {
@@ -32,7 +33,7 @@ extension LocationsClient: DependencyKey {
                 await locationsStorage.set(data: locations + [location])
             }, signIn: { _, _ in
             }, isSignedIn: {
-                true
+                Just<Bool>(true).eraseToAnyPublisher().values
             }, signOut: {}, registerUser: { _, _ in
             }, resetPassword: { _ in },
             deleteAccount: {}

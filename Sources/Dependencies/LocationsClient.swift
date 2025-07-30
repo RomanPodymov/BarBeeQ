@@ -36,7 +36,7 @@ struct LocationsClient {
     typealias LocationsProvider = @Sendable () async throws -> [BarBeeQLocation]
     typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
     typealias SignInProvider = @Sendable (String, String) async throws -> Void
-    typealias IsSignedInProvider = @Sendable () -> Bool
+    typealias IsSignedInProvider = @Sendable () -> any AsyncSequence<Bool, Never>
     typealias SignOutProvider = @Sendable () async throws -> Void
     typealias RegisterUserProvider = @Sendable (String, String) async throws -> Void
     typealias ResetPasswordProvider = @Sendable (String) async throws -> Void
