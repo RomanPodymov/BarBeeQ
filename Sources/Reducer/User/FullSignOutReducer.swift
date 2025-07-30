@@ -36,11 +36,11 @@ struct FullSignOutReducer {
                 .run { send in
                     await send(.basic(.startLoading))
                 }
-            case .custom(.signOutSuccess):
+            case .custom(.signOutSuccess), .custom(.deleteAccountSuccess):
                 .run { send in
                     await send(.basic(.endLoading))
                 }
-            case .custom(.signOutFailed):
+            case .custom(.signOutFailed), .custom(.deleteAccountFailed):
                 .run { send in
                     await send(.basic(.endLoading))
                     await send(.basic(.error(true)))

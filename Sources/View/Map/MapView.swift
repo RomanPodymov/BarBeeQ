@@ -48,19 +48,21 @@ struct MapView: View {
                 }
             }
             .mapControlVisibility(.hidden)
-            VStack {
-                Spacer()
-                HStack {
+            if let isSignedIn = store.state.isSignedIn, isSignedIn {
+                VStack {
                     Spacer()
-                    Button {
-                        store.send(.newLocationPressed)
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .resizable()
-                            .frame(width: 100, height: 100)
+                    HStack {
+                        Spacer()
+                        Button {
+                            store.send(.newLocationPressed)
+                        } label: {
+                            Image(systemName: "plus.circle.fill")
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                        }
+                        .padding(.trailing, 100)
+                        .padding(.bottom, 100)
                     }
-                    .padding(.trailing, 100)
-                    .padding(.bottom, 100)
                 }
             }
         }

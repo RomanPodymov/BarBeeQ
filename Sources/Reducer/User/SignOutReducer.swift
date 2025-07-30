@@ -19,6 +19,10 @@ struct SignOutReducer {
         case signOut
         case signOutSuccess
         case signOutFailed
+
+        case deleteAccount
+        case deleteAccountSuccess
+        case deleteAccountFailed
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -33,6 +37,15 @@ struct SignOutReducer {
                         await send(.signOutSuccess)
                     } catch {
                         await send(.signOutFailed)
+                    }
+                }
+            case .deleteAccount:
+                .run { send in
+                    do {
+                        try await locationsClient.deleteAccount()
+                        await send(.deleteAccountSuccess)
+                    } catch {
+                        await send(.deleteAccountFailed)
                     }
                 }
             default:

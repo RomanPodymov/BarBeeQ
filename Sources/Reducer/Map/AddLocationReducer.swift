@@ -33,8 +33,6 @@ struct AddLocationReducer {
         var showPhotosPicker = false
         var selectedPhotos: PhotosPickerItem?
         var photo: Data?
-
-        var showingAlert = false
     }
 
     enum Action {
@@ -45,7 +43,9 @@ struct AddLocationReducer {
         case photoLoaded(Data?)
         case add(BarBeeQLocation)
         case locationAdded
-        case error(Bool)
+
+        case addLocationFailed
+        case selectPhotoFailed
     }
 
     @Dependency(\.locationsClient) var locationsClient
@@ -59,7 +59,7 @@ struct AddLocationReducer {
                         try await locationsClient.addLocation(location)
                         await send(.locationAdded)
                     } catch {
-                        await send(.error(true))
+                        await send(.addLocationFailed)
                     }
                 }
             case let .nameChanged(name):
@@ -74,14 +74,11 @@ struct AddLocationReducer {
                         let photo = try await value?.loadTransferable(type: Data.self)
                         await send(.photoLoaded(photo))
                     } catch {
-                        await send(.error(true))
+                        await send(.selectPhotoFailed)
                     }
                 }
             case let .photoLoaded(value):
                 state.photo = value
-                return .none
-            case let .error(value):
-                state.showingAlert = value
                 return .none
             default:
                 return .none
