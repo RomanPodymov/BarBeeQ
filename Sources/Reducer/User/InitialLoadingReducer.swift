@@ -27,8 +27,7 @@ struct InitialLoadingReducer {
             switch action {
             case .onAppear:
                 .run { send in
-                    let isSignedInValue = locationsClient.isSignedIn()
-                    for await isSignedIn in isSignedInValue {
+                    for await isSignedIn in await locationsClient.isSignedIn() {
                         await send(.isSignedIn(isSignedIn))
                     }
                 }

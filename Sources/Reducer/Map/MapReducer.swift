@@ -26,9 +26,8 @@ struct MapReducer {
         case received([BarBeeQLocation])
         case newLocationPressed
         case locationDetailPressed
+        case isSignedIn(Bool)
     }
-
-    @Dependency(\.locationsClient) var locationsClient
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -36,12 +35,22 @@ struct MapReducer {
             case .onAppear:
                 state.isLoading = true
                 return .run { send in
+                    Task {
+                        @Dependency(\.locationsClient) var locationsClient
+                        for await isSignedIn in await locationsClient.isSignedIn() {
+                            await send(.isSignedIn(isSignedIn))
+                        }
+                    }
+                    @Dependency(\.locationsClient) var locationsClient
                     let locations = try await locationsClient.locations()
                     await send(.received(locations))
                 }
             case let .received(data):
                 state.isLoading = false
                 state.data = data
+                return .none
+            case let .isSignedIn(value):
+                state.isSignedIn = value
                 return .none
             default:
                 return .none

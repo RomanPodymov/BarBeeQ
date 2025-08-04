@@ -11,12 +11,12 @@ packages:
   TCACoordinators:
     url: https://github.com/johnpatrickmorgan/TCACoordinators.git
     version: 0.13.0
-  FirebaseFirestore:
-    url: https://github.com/firebase/firebase-ios-sdk.git
-    version: 12.0.0
-  FirebaseAuth:
-    url: https://github.com/firebase/firebase-ios-sdk.git
-    version: 12.0.0
+  CombineFirebaseFirestore:
+    url: https://github.com/RomanPodymov/CombineFirebase.git
+    branch: master
+  CombineFirebaseAuth:
+    url: https://github.com/RomanPodymov/CombineFirebase.git
+    branch: master
 targets:
   BarBeeQApp:
     settings:
@@ -29,8 +29,8 @@ targets:
     dependencies:
       - package: ComposableArchitecture
       - package: TCACoordinators
-      - package: FirebaseFirestore
-      - package: FirebaseAuth
+      - package: CombineFirebaseFirestore
+      - package: CombineFirebaseAuth
     info:
       path: Sources/Info.plist
       properties:
