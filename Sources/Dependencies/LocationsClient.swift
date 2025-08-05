@@ -31,7 +31,7 @@ struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {
 }
 
 @DependencyClient
-struct LocationsClient: Sendable {
+struct LocationsClient {
     typealias PrepareProvider = @Sendable () -> Void
     typealias LocationsProvider = @Sendable () async throws -> [BarBeeQLocation]
     typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
