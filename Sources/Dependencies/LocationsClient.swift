@@ -6,6 +6,7 @@
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
+import Combine
 import ComposableArchitecture
 import MapKit
 
@@ -36,7 +37,7 @@ struct LocationsClient {
     typealias LocationsProvider = @Sendable () async throws -> [BarBeeQLocation]
     typealias LocationAddProvider = @Sendable (BarBeeQLocation) async throws -> Void
     typealias SignInProvider = @Sendable (String, String) async throws -> Void
-    typealias IsSignedInProvider = @Sendable () async -> any AsyncSequence<Bool, Never>
+    typealias IsSignedInProvider = @Sendable () -> AnyPublisher<Bool, Never>
     typealias SignOutProvider = @Sendable () async throws -> Void
     typealias RegisterUserProvider = @Sendable (String, String) async throws -> Void
     typealias ResetPasswordProvider = @Sendable (String) async throws -> Void

@@ -49,7 +49,7 @@ extension LocationsClient {
     }, signIn: { email, password in
         try await Auth.auth().signIn(withEmail: email, password: password)
     }, isSignedIn: {
-        Auth.auth().stateDidChangePublisher.map { $0 != nil }.values
+        Auth.auth().stateDidChangePublisher.map { $0 != nil }.eraseToAnyPublisher()
     }, signOut: {
         try Auth.auth().signOut()
     }, registerUser: { email, password in

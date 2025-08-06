@@ -6,6 +6,7 @@
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
+import Combine
 import ComposableArchitecture
 
 @Reducer
@@ -38,15 +39,14 @@ struct MapReducer {
             switch action {
             case .onAppear:
                 state.isLoading = true
-                return .run { send in
-                    Task.detached {
-                        for await isSignedIn in await locationsClient.isSignedIn() {
-                            await send(.isSignedIn(isSignedIn))
-                        }
+                return .publisher {
+                    locationsClient.isSignedIn().map {
+                        .isSignedIn($0)
                     }
+                }.merge(with: .run { send in
                     let locations = try await locationsClient.locations()
                     await send(.received(locations))
-                }
+                })
             case .onDisappear:
                 return .none
             case let .received(data):

@@ -33,7 +33,7 @@ extension LocationsClient: DependencyKey {
                 await locationsStorage.set(data: locations + [location])
             }, signIn: { _, _ in
             }, isSignedIn: {
-                Just<Bool>(true).eraseToAnyPublisher().values
+                Just<Bool>(true).eraseToAnyPublisher()
             }, signOut: {}, registerUser: { _, _ in
             }, resetPassword: { _ in },
             deleteAccount: {}

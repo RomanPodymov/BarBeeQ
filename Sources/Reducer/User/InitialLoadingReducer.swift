@@ -26,10 +26,10 @@ struct InitialLoadingReducer {
             case .onAppear:
                 .run { send in
                     @Dependency(\.locationsClient) var locationsClient
-                    for await isSignedIn in await locationsClient.isSignedIn() {
-                        await send(.isSignedIn(isSignedIn))
-                        break
+                    guard let isSignedIn = await locationsClient.isSignedIn().values.first(where: { _ in true }) else {
+                        return
                     }
+                    await send(.isSignedIn(isSignedIn))
                 }
             default:
                 .none
