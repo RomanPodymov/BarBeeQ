@@ -31,8 +31,7 @@ struct MapReducer {
         case isSignedIn(Bool)
     }
 
-    @Dependency(\.locationsClient) var locationsClient
-    var isSignedTask: Task<Void, Never>?
+    enum CancelID { case locations }
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -40,15 +39,17 @@ struct MapReducer {
             case .onAppear:
                 state.isLoading = true
                 return .publisher {
-                    locationsClient.isSignedIn().map {
-                        .isSignedIn($0)
+                    @Dependency(\.locationsClient) var locationsClient
+                    return locationsClient.isSignedIn().map {
+                        Action.isSignedIn($0)
                     }
                 }.merge(with: .run { send in
+                    @Dependency(\.locationsClient) var locationsClient
                     let locations = try await locationsClient.locations()
                     await send(.received(locations))
-                })
+                }).cancellable(id: CancelID.locations, cancelInFlight: true)
             case .onDisappear:
-                return .none
+                return .cancel(id: CancelID.locations)
             case let .received(data):
                 state.isLoading = false
                 state.data = data
