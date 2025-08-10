@@ -57,6 +57,6 @@ extension LocationsClient {
     }, resetPassword: { email in
         try await Auth.auth().sendPasswordReset(withEmail: email)
     }, deleteAccount: {
-        Auth.auth().currentUser?.delete()
+        _ = try await Auth.auth().currentUser?.delete().values.first { _ in true }
     })
 }
