@@ -6,6 +6,7 @@
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
+import Combine
 import ComposableArchitecture
 
 actor ThreadSafeArray<T> {
@@ -24,16 +25,19 @@ extension LocationsClient: DependencyKey {
     private static let dummy = {
         let locationsStorage = ThreadSafeArray<BarBeeQLocation>()
 
-        return LocationsClient(setup: {}, locations: {
-            await locationsStorage.data
-        }, addLocation: { location in
-            let locations = await locationsStorage.data
-            await locationsStorage.set(data: locations + [location])
-        }, signIn: { _, _ in
-        }, isSignedIn: {
-            true
-        }, signOut: {}, registerUser: { _, _ in
-        }, resetPassword: { _ in })
+        return LocationsClient(
+            setup: {}, locations: {
+                await locationsStorage.data
+            }, addLocation: { location in
+                let locations = await locationsStorage.data
+                await locationsStorage.set(data: locations + [location])
+            }, signIn: { _, _ in
+            }, isSignedIn: {
+                Just<Bool>(true).eraseToAnyPublisher()
+            }, signOut: {}, registerUser: { _, _ in
+            }, resetPassword: { _ in },
+            deleteAccount: {}
+        )
     }()
 
     static let liveValue = firebase

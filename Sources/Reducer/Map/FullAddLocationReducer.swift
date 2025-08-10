@@ -1,26 +1,26 @@
 //
-//  FullSignInReducer.swift
+//  FullAddLocationReducer.swift
 //  BarBeeQ
 //
-//  Created by Roman Podymov on 21/07/2025.
+//  Created by Roman Podymov on 28/07/2025.
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
 import ComposableArchitecture
 
 @Reducer
-struct FullSignInReducer {
+struct FullAddLocationReducer {
     @ObservableState
     struct State: Equatable, Hashable {
         static let initialState = State()
 
         var basic = BasicReducer.State.initialState
-        var custom = SignInReducer.State.initialState
+        var custom = AddLocationReducer.State.initialState
     }
 
     enum Action {
         case basic(BasicReducer.Action)
-        case custom(SignInReducer.Action)
+        case custom(AddLocationReducer.Action)
     }
 
     var body: some ReducerOf<Self> {
@@ -28,19 +28,19 @@ struct FullSignInReducer {
             BasicReducer()
         }
         Scope(state: \.custom, action: \.custom) {
-            SignInReducer()
+            AddLocationReducer()
         }
         Reduce { _, action in
             switch action {
-            case .custom(.signIn):
+            case .custom(.selectedPhotos), .custom(.add):
                 .run { send in
                     await send(.basic(.startLoading))
                 }
-            case .custom(.signInSuccess):
+            case .custom(.photoLoaded):
                 .run { send in
                     await send(.basic(.endLoading))
                 }
-            case .custom(.signInFailed):
+            case .custom(.addLocationFailed), .custom(.selectPhotoFailed):
                 .run { send in
                     await send(.basic(.endLoading))
                     await send(.basic(.error(true)))

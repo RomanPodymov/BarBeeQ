@@ -6,6 +6,7 @@
 //  Copyright © 2025 BarBeeQ. All rights reserved.
 //
 
+import CombineFirebaseAuth
 import ComposableArchitecture
 import FirebaseAuth
 import FirebaseCore
@@ -48,12 +49,14 @@ extension LocationsClient {
     }, signIn: { email, password in
         try await Auth.auth().signIn(withEmail: email, password: password)
     }, isSignedIn: {
-        Auth.auth().currentUser != nil
+        Auth.auth().stateDidChangePublisher.map { $0 != nil }.eraseToAnyPublisher()
     }, signOut: {
         try Auth.auth().signOut()
     }, registerUser: { email, password in
         try await Auth.auth().createUser(withEmail: email, password: password)
     }, resetPassword: { email in
         try await Auth.auth().sendPasswordReset(withEmail: email)
+    }, deleteAccount: {
+        _ = try await Auth.auth().currentUser?.delete().values.first { _ in true }
     })
 }

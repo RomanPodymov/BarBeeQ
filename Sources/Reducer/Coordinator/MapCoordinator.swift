@@ -12,7 +12,7 @@ import ComposableArchitecture
 @Reducer(state: .equatable, .hashable, .sendable)
 enum MapScreen {
     case map(MapReducer)
-    case newLocation(AddLocationReducer)
+    case newLocation(FullAddLocationReducer)
     case mapSelection(MapSelectionReducer)
 }
 
@@ -45,7 +45,7 @@ struct MapCoordinator {
 
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
 
-        var addLocationState = AddLocationReducer.State.initialState
+        var addLocationState = FullAddLocationReducer.State.initialState
         var mapSelection = MapSelectionReducer.State.initialState
     }
 
@@ -60,20 +60,20 @@ struct MapCoordinator {
                 state.addLocationState = .initialState
                 state.routes.push(.newLocation(state.addLocationState))
                 return .none
-            case .router(.routeAction(_, action: .newLocation(.selectLocation))):
+            case .router(.routeAction(_, action: .newLocation(.custom(.selectLocation)))):
                 state.routes.push(.mapSelection(state.mapSelection))
                 return .none
-            case .router(.routeAction(_, action: .newLocation(.locationAdded))):
+            case .router(.routeAction(_, action: .newLocation(.custom(.locationAdded)))):
                 state.routes.goBackTo(id: .map)
                 return .none
-            case let .router(.routeAction(_, action: .newLocation(.nameChanged(name)))):
-                state.addLocationState.name = name
+            case let .router(.routeAction(_, action: .newLocation(.custom(.nameChanged(name))))):
+                state.addLocationState.custom.name = name
                 return .none
-            case let .router(.routeAction(_, action: .newLocation(.photoLoaded(photo)))):
-                state.addLocationState.photo = photo
+            case let .router(.routeAction(_, action: .newLocation(.custom(.photoLoaded(photo))))):
+                state.addLocationState.custom.photo = photo
                 return .none
             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
-                state.addLocationState.location = location
+                state.addLocationState.custom.location = location
                 state.routes = State.initialState.routes + [
                     .push(.newLocation(state.addLocationState))
                 ]

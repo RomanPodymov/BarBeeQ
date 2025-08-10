@@ -68,7 +68,8 @@ struct UserCoordinator {
                 state.routes.push(.resetPassword(.initialState))
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(false)))),
-                 .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))):
+                 .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))),
+                 .router(.routeAction(_, action: .signOut(.custom(.deleteAccountSuccess)))):
                 state.routes = [
                     .root(.signIn(.initialState), embedInNavigationView: true)
                 ]
