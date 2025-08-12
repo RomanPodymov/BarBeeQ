@@ -51,7 +51,9 @@ extension LocationsClient {
                 guard let compressed = image.compress(to: 800) else {
                     return nil
                 }
-                let encodedImage = location.photo?.base64EncodedString() ?? ""
+                guard let encodedImage = location.photo?.base64EncodedString() else {
+                    return nil
+                }
                 return encodedImage
             }()
         ].compactMapValues { $0 })
