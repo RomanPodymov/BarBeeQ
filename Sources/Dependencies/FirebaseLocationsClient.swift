@@ -41,11 +41,20 @@ extension LocationsClient {
                 latitude: location.location.latitude,
                 longitude: location.location.longitude
             ),
-            "photo": {
+            "photo": { () -> Any? in
+                guard let photo = location.photo else {
+                    return nil
+                }
+                guard let image = UIImage(data: photo) else {
+                    return nil
+                }
+                guard let compressed = image.compress(to: 800) else {
+                    return nil
+                }
                 let encodedImage = location.photo?.base64EncodedString() ?? ""
                 return encodedImage
             }()
-        ])
+        ].compactMapValues { $0 })
     }, signIn: { email, password in
         try await Auth.auth().signIn(withEmail: email, password: password)
     }, isSignedIn: {
