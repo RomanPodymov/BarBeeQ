@@ -35,28 +35,33 @@ extension LocationsClient {
         }
     }, addLocation: { location in
         let collection = Firestore.firestore().collection("BBQLocation")
-        try await collection.addDocument(data: [
-            "name": location.name,
-            "location": GeoPoint(
-                latitude: location.location.latitude,
-                longitude: location.location.longitude
-            ),
-            "photo": { () -> Any? in
-                guard let photo = location.photo else {
-                    return nil
-                }
-                guard let image = UIImage(data: photo) else {
-                    return nil
-                }
-                guard let compressed = image.compress(to: 800) else {
-                    return nil
-                }
-                guard let encodedImage = location.photo?.base64EncodedString() else {
-                    return nil
-                }
-                return encodedImage
-            }()
-        ].compactMapValues { $0 })
+        while true {
+            var currentCompressValue = 1024
+            do {
+                try await collection.addDocument(data: [
+                    "name": location.name,
+                    "location": GeoPoint(
+                        latitude: location.location.latitude,
+                        longitude: location.location.longitude
+                    ),
+                    "photo": { () -> Any? in
+                        guard let photo = location.photo else {
+                            return nil
+                        }
+                        guard let image = UIImage(data: photo) else {
+                            return nil
+                        }
+                        guard let compressed = image.compress(to: currentCompressValue) else {
+                            return nil
+                        }
+                        return compressed.base64EncodedString()
+                    }()
+                ].compactMapValues { $0 })
+                break
+            } catch {
+                currentCompressValue -= 100
+            }
+        }
     }, signIn: { email, password in
         try await Auth.auth().signIn(withEmail: email, password: password)
     }, isSignedIn: {
