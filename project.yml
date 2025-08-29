@@ -3,11 +3,11 @@ options:
   bundleIdPrefix: com.barbeeq
   deploymentTarget:
     iOS: 17.0
-  xcodeVersion: "16.2"
+  xcodeVersion: "16.4"
 packages:
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
-    version: 1.20.2
+    version: 1.22.1
   TCACoordinators:
     url: https://github.com/johnpatrickmorgan/TCACoordinators.git
     version: 0.13.0

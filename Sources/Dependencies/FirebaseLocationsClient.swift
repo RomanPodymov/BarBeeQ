@@ -57,7 +57,7 @@ extension LocationsClient {
                 }()
             ].compactMapValues { $0 })
         }
-        while true {
+        while currentCompressValue > 0 {
             do {
                 try await addLocation()
                 break
