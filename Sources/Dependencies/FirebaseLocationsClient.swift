@@ -35,17 +35,36 @@ extension LocationsClient {
         }
     }, addLocation: { location in
         let collection = Firestore.firestore().collection("BBQLocation")
-        try await collection.addDocument(data: [
-            "name": location.name,
-            "location": GeoPoint(
-                latitude: location.location.latitude,
-                longitude: location.location.longitude
-            ),
-            "photo": {
-                let encodedImage = location.photo?.base64EncodedString() ?? ""
-                return encodedImage
-            }()
-        ])
+        var currentCompressValue = 1024
+        func addLocation() async throws {
+            try await collection.addDocument(data: [
+                "name": location.name,
+                "location": GeoPoint(
+                    latitude: location.location.latitude,
+                    longitude: location.location.longitude
+                ),
+                "photo": { () -> Any? in
+                    guard let photo = location.photo else {
+                        return nil
+                    }
+                    guard let image = UIImage(data: photo) else {
+                        return nil
+                    }
+                    guard let compressed = image.compress(to: currentCompressValue) else {
+                        return nil
+                    }
+                    return compressed.base64EncodedString()
+                }()
+            ].compactMapValues { $0 })
+        }
+        while currentCompressValue > 0 {
+            do {
+                try await addLocation()
+                break
+            } catch {
+                currentCompressValue -= 100
+            }
+        }
     }, signIn: { email, password in
         try await Auth.auth().signIn(withEmail: email, password: password)
     }, isSignedIn: {

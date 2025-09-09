@@ -49,6 +49,7 @@ struct AddLocationReducer {
     }
 
     @Dependency(\.locationsClient) var locationsClient
+    static let imageLimit = 1_048_487
 
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -71,7 +72,10 @@ struct AddLocationReducer {
             case let .selectedPhotos(value):
                 return .run { send in
                     do {
-                        let photo = try await value?.loadTransferable(type: Data.self)
+                        guard let photo = try await value?.loadTransferable(type: Data.self) else {
+                            await send(.selectPhotoFailed)
+                            return
+                        }
                         await send(.photoLoaded(photo))
                     } catch {
                         await send(.selectPhotoFailed)
