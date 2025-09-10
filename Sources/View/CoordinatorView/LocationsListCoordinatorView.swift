@@ -25,6 +25,11 @@ struct LocationsListCoordinatorView: View {
                 AddLocationView(
                     store: store
                 )
+
+            case let .locationDetail(store):
+                LocationDetailView(
+                    store: store
+                )
             }
         }
     }

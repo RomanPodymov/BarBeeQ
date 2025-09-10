@@ -13,11 +13,13 @@ import ComposableArchitecture
 enum LocationsListScreen {
     case map(MapReducer)
     case newLocation(FullAddLocationReducer)
+    case locationDetail(LocationDetailReducer)
 }
 
 enum LocationsListScreenId {
     case map
     case newLocation
+    case locationDetail
 }
 
 extension LocationsListScreen.State: Identifiable {
@@ -27,6 +29,8 @@ extension LocationsListScreen.State: Identifiable {
             .map
         case .newLocation:
             .newLocation
+        case .locationDetail:
+            .locationDetail
         }
     }
 }
@@ -42,6 +46,7 @@ struct LocationsListCoordinator {
         var routes: IdentifiedArrayOf<Route<LocationsListScreen.State>>
 
         var addLocationState = FullAddLocationReducer.State.initialState
+        var locationDetailState = LocationDetailReducer.State.initialState
     }
 
     enum Action {
@@ -54,6 +59,9 @@ struct LocationsListCoordinator {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
                 state.addLocationState = .initialState
                 state.routes.push(.newLocation(state.addLocationState))
+                return .none
+            case .router(.routeAction(_, action: .map(.locationDetailPressed))):
+                state.routes.push(.locationDetail(state.locationDetailState))
                 return .none
             default:
                 return .none
