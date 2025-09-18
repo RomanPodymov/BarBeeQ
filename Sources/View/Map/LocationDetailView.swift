@@ -13,6 +13,6 @@ struct LocationDetailView: View {
     var store: StoreOf<LocationDetailReducer>
 
     var body: some View {
-        Text(store.name)
+        Text(store.location.name)
     }
 }

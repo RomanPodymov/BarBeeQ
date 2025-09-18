@@ -14,7 +14,7 @@ struct LocationDetailReducer {
     struct State: Equatable, Hashable {
         static let initialState = State()
 
-        var name = ""
+        var location: BarBeeQLocation = .init(name: "", location: .init(), photo: nil)
     }
 
     enum Action {

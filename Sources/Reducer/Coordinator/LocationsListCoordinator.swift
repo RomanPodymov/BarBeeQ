@@ -60,7 +60,8 @@ struct LocationsListCoordinator {
                 state.addLocationState = .initialState
                 state.routes.push(.newLocation(state.addLocationState))
                 return .none
-            case .router(.routeAction(_, action: .map(.locationDetailPressed))):
+            case let .router(.routeAction(_, action: .map(.locationDetailPressed(location)))):
+                state.locationDetailState.location = location
                 state.routes.push(.locationDetail(state.locationDetailState))
                 return .none
             default:
