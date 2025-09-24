@@ -13,6 +13,9 @@ struct LocationDetailView: View {
     var store: StoreOf<LocationDetailReducer>
 
     var body: some View {
-        Text(store.location.name)
+        VStack {
+            store.location.photo.flatMap { UIImage(data: $0) }.map { Image(uiImage: $0) }
+            Text(store.location.name)
+        }
     }
 }
