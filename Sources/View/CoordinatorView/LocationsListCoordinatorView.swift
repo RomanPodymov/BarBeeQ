@@ -26,6 +26,11 @@ struct LocationsListCoordinatorView: View {
                     store: store
                 )
 
+            case let .mapSelection(store):
+                MapSelectionView(
+                    store: store
+                )
+
             case let .locationDetail(store):
                 LocationDetailView(
                     store: store
