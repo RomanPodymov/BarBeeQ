@@ -37,9 +37,9 @@ targets:
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: YES
     postCompileScripts:
-      - script: "mint run swiftformat . --swiftversion 5.9"
+      - path: swiftformat.sh
         name: SwiftFormat
-      - script: "mint run swiftlint"
+      - path: swiftlint.sh
         name: SwiftLint
   BarBeeQAppTests:
     settings:
