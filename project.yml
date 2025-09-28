@@ -3,7 +3,7 @@ options:
   bundleIdPrefix: com.barbeeq
   deploymentTarget:
     iOS: 17.0
-  xcodeVersion: "16.4"
+  xcodeVersion: "26.0"
 packages:
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
