@@ -72,6 +72,12 @@ struct LocationsListCoordinator {
             case .router(.routeAction(_, action: .newLocation(.custom(.selectLocation)))):
                 state.routes.push(.mapSelection(state.mapSelection))
                 return .none
+            case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
+                state.addLocationState.custom.location = location
+                state.routes = State.initialState.routes + [
+                    .push(.newLocation(state.addLocationState))
+                ]
+                return .none
             default:
                 return .none
             }
