@@ -19,11 +19,9 @@ struct MainTabCoordinatorView: View {
                 .tabItem { Text("tab.map.title") }
                 .tag(MainTabCoordinator.Tab.map)
 
-            LocationsListView(
-                store: .init(initialState: .initialState, reducer: { MapReducer() })
-            )
-            .tabItem { Text("tab.list.title") }
-            .tag(MainTabCoordinator.Tab.list)
+            LocationsListCoordinatorView(store: store.scope(state: \.list, action: \.list))
+                .tabItem { Text("tab.list.title") }
+                .tag(MainTabCoordinator.Tab.list)
 
             UserCoordinatorView(store: store.scope(state: \.user, action: \.user))
                 .tabItem { Text("tab.profile.title") }

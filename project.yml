@@ -3,11 +3,11 @@ options:
   bundleIdPrefix: com.barbeeq
   deploymentTarget:
     iOS: 17.0
-  xcodeVersion: "16.4"
+  xcodeVersion: "26.0"
 packages:
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
-    version: 1.22.1
+    version: 1.22.3
   TCACoordinators:
     url: https://github.com/johnpatrickmorgan/TCACoordinators.git
     version: 0.13.0
@@ -37,9 +37,9 @@ targets:
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: YES
     postCompileScripts:
-      - script: "/opt/homebrew/bin/mint run swiftformat . --swiftversion 5.9"
+      - path: swiftformat.sh
         name: SwiftFormat
-      - script: "/opt/homebrew/bin/mint run swiftlint"
+      - path: swiftlint.sh
         name: SwiftLint
   BarBeeQAppTests:
     settings:
@@ -54,7 +54,7 @@ targets:
     info:
       path: Tests/Info.plist
     postCompileScripts:
-      - script: "/opt/homebrew/bin/mint run swiftformat . --swiftversion 5.9"
+      - script: "mint run swiftformat . --swiftversion 5.9"
         name: SwiftFormat
-      - script: "/opt/homebrew/bin/mint run swiftlint"
+      - script: "mint run swiftlint"
         name: SwiftLint

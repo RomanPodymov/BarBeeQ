@@ -27,7 +27,7 @@ struct MapReducer {
         case onDisappear
         case received([BarBeeQLocation])
         case newLocationPressed
-        case locationDetailPressed
+        case locationDetailPressed(BarBeeQLocation)
         case isSignedIn(Bool)
     }
 

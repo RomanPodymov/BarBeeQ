@@ -39,7 +39,7 @@ struct MapView: View {
                                 .resizable()
                                 .frame(width: 100, height: 100)
                             Button {
-                                store.send(.locationDetailPressed)
+                                store.send(.locationDetailPressed(place))
                             } label: {
                                 Text(place.name)
                             }

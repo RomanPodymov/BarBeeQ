@@ -16,6 +16,7 @@ struct MainTabCoordinator {
 
     enum Action {
         case map(MapCoordinator.Action)
+        case list(LocationsListCoordinator.Action)
         case user(UserCoordinator.Action)
         case tabSelected(Tab)
     }
@@ -24,11 +25,13 @@ struct MainTabCoordinator {
     struct State: Equatable {
         static let initialState = State(
             map: .initialState,
+            list: .initialState,
             user: .initialState,
             selectedTab: .map
         )
 
         var map: MapCoordinator.State
+        var list: LocationsListCoordinator.State
         var user: UserCoordinator.State
 
         var selectedTab: Tab
@@ -37,6 +40,9 @@ struct MainTabCoordinator {
     var body: some ReducerOf<Self> {
         Scope(state: \.map, action: \.map) {
             MapCoordinator()
+        }
+        Scope(state: \.list, action: \.list) {
+            LocationsListCoordinator()
         }
         Scope(state: \.user, action: \.user) {
             UserCoordinator()
