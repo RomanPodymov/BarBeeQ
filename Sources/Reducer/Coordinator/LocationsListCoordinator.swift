@@ -7,6 +7,8 @@
 //
 
 import ComposableArchitecture
+import Foundation
+import RPMacro
 @preconcurrency import TCACoordinators
 
 @Reducer(state: .equatable, .hashable, .sendable)
@@ -59,7 +61,9 @@ struct LocationsListCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        let url = #SuperPuper("https://www.google.com")
+        print(url)
+        return Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
                 state.addLocationState = .initialState

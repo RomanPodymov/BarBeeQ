@@ -5,6 +5,8 @@ options:
     iOS: 17.0
   xcodeVersion: "26.0"
 packages:
+  RPMacro:
+    path: ../RPMacro
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
     version: 1.22.3
@@ -31,6 +33,7 @@ targets:
       - package: TCACoordinators
       - package: CombineFirebaseFirestore
       - package: CombineFirebaseAuth
+      - package: RPMacro
     info:
       path: Sources/Info.plist
       properties:
