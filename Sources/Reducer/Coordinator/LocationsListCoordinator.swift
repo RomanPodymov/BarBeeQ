@@ -19,11 +19,9 @@ enum LocationsListScreen {
     case locationDetail(LocationDetailReducer)
 }
 
+@GenerateEnumCases(["map", "newLocation", "mapSelection", "locationDetail"])
 enum LocationsListScreenId {
-    case map
-    case newLocation
-    case mapSelection
-    case locationDetail
+
 }
 
 extension LocationsListScreen.State: Identifiable {
@@ -61,8 +59,6 @@ struct LocationsListCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        let url = #SuperPuper("https://www.google.com")
-        print(url)
         return Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
