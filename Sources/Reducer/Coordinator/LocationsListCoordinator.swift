@@ -21,7 +21,7 @@ enum LocationsListScreen {
 
 @GenerateEnumCases(["map", "newLocation", "mapSelection", "locationDetail"])
 enum LocationsListScreenId {
-
+    case something
 }
 
 extension LocationsListScreen.State: Identifiable {
@@ -59,7 +59,7 @@ struct LocationsListCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        return Reduce { state, action in
+        Reduce { state, action in
             switch action {
             case .router(.routeAction(_, action: .map(.newLocationPressed))):
                 state.addLocationState = .initialState
