@@ -18,7 +18,7 @@ enum LocationsListScreen {
     case locationDetail(LocationDetailReducer)
 }
 
-#generateCurrenciesEnum(["map", "newLocation", "mapSelection", "locationDetail"])
+#generateCurrenciesEnum(name: "LocationsListScreenId", ["map", "newLocation", "mapSelection", "locationDetail"])
 
 extension LocationsListScreen.State: Identifiable {
     var id: LocationsListScreenId {
