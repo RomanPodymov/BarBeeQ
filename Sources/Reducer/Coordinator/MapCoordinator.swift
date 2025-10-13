@@ -11,7 +11,7 @@ import ComposableArchitecture
 
 @Reducer(state: .equatable, .hashable, .sendable)
 enum MapScreen {
-    case map(MapReducer)
+    case map(FullMapReducer)
     case newLocation(FullAddLocationReducer)
     case mapSelection(MapSelectionReducer)
 }
@@ -56,7 +56,7 @@ struct MapCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .router(.routeAction(_, action: .map(.newLocationPressed))):
+            case .router(.routeAction(_, action: .map(.custom(.newLocationPressed)))):
                 state.addLocationState = .initialState
                 state.routes.push(.newLocation(state.addLocationState))
                 return .none
