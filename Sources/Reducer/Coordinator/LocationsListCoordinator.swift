@@ -12,7 +12,7 @@ import RPMacro
 
 @Reducer(state: .equatable, .hashable, .sendable)
 enum LocationsListScreen {
-    case map(MapReducer)
+    case map(FullMapReducer)
     case newLocation(FullAddLocationReducer)
     case mapSelection(MapSelectionReducer)
     case locationDetail(LocationDetailReducer)
@@ -59,11 +59,11 @@ struct LocationsListCoordinator {
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
-            case .router(.routeAction(_, action: .map(.newLocationPressed))):
+            case .router(.routeAction(_, action: .map(.custom(.newLocationPressed)))):
                 state.addLocationState = .initialState
                 state.routes.push(.newLocation(state.addLocationState))
                 return .none
-            case let .router(.routeAction(_, action: .map(.locationDetailPressed(location)))):
+            case let .router(.routeAction(_, action: .map(.custom(.custom(locationDetailPressed(location)))))):
                 state.locationDetailState.location = location
                 state.routes.push(.locationDetail(state.locationDetailState))
                 return .none

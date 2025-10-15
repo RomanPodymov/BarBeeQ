@@ -37,7 +37,7 @@ struct MapReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                state.basic.isLoading = true
+                // state.basic.isLoading = true
                 return .publisher {
                     @Dependency(\.locationsClient) var locationsClient
                     return locationsClient.isSignedIn().map {
@@ -55,14 +55,14 @@ struct MapReducer {
             case .onDisappear:
                 return .cancel(id: CancelID.locations)
             case let .received(data):
-                state.isLoading = false
+                // state.basic.isLoading = false
                 state.data = data
                 return .none
             case let .isSignedIn(value):
                 state.isSignedIn = value
                 return .none
             case let .error(value):
-                state.showingAlert = value
+                // state.showingAlert = value
                 return .none
             default:
                 return .none
