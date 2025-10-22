@@ -42,11 +42,11 @@ struct LocationsListView: View {
             }
         }
         .loadingIndicator(store.basic.isLoading)
-        /* .onAppear {
-             store.send(.onAppear)
-         }
-         .onDisappear {
-             store.send(.onDisappear)
-         } */
+        .onAppear {
+            store.send(.custom(.onAppear))
+        }
+        .onDisappear {
+            store.send(.custom(.onDisappear))
+        }
     }
 }
