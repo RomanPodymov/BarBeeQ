@@ -32,6 +32,15 @@ struct FullMapReducer {
         }
         Reduce { _, action in
             switch action {
+            case .custom(.onAppear):
+                .run { send in
+                    await send(.basic(.startLoading))
+                }
+            case .custom(.loadLocationsFailed):
+                .run { send in
+                    await send(.basic(.endLoading))
+                    await send(.basic(.error(true)))
+                }
             default:
                 .none
             }

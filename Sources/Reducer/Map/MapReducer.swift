@@ -28,7 +28,7 @@ struct MapReducer {
         case newLocationPressed
         case locationDetailPressed(BarBeeQLocation)
         case isSignedIn(Bool)
-        case error(Bool)
+        case loadLocationsFailed
     }
 
     enum CancelID { case locations }
@@ -37,7 +37,6 @@ struct MapReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                // state.basic.isLoading = true
                 return .publisher {
                     @Dependency(\.locationsClient) var locationsClient
                     return locationsClient.isSignedIn().map {
@@ -49,7 +48,7 @@ struct MapReducer {
                         let locations = try await locationsClient.locations()
                         await send(.received(locations))
                     } catch {
-                        await send(.error(true))
+                        await send(.loadLocationsFailed)
                     }
                 }).cancellable(id: CancelID.locations, cancelInFlight: true)
             case .onDisappear:
@@ -60,9 +59,6 @@ struct MapReducer {
                 return .none
             case let .isSignedIn(value):
                 state.isSignedIn = value
-                return .none
-            case let .error(value):
-                // state.showingAlert = value
                 return .none
             default:
                 return .none
