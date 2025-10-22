@@ -32,19 +32,6 @@ struct FullMapReducer {
         }
         Reduce { _, action in
             switch action {
-            /* case .custom(.selectedPhotos), .custom(.add):
-                 .run { send in
-                     await send(.basic(.startLoading))
-                 }
-             case .custom(.photoLoaded):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                 }
-             case .custom(.addLocationFailed), .custom(.selectPhotoFailed):
-                 .run { send in
-                     await send(.basic(.endLoading))
-                     await send(.basic(.error(true)))
-                 } */
             default:
                 .none
             }

@@ -57,27 +57,27 @@ struct LocationsListCoordinator {
     }
 
     var body: some ReducerOf<Self> {
-        Reduce { _, action in
+        Reduce { state, action in
             switch action {
-            /* case .router(.routeAction(_, action: .map(.custom(.newLocationPressed)))):
-                 state.addLocationState = .initialState
-                 state.routes.push(.newLocation(state.addLocationState))
-                 return .none
-             case let .router(.routeAction(_, action: .map(.custom(.custom(locationDetailPressed(location)))))):
-                 state.locationDetailState.location = location
-                 state.routes.push(.locationDetail(state.locationDetailState))
-                 return .none
-             case .router(.routeAction(_, action: .newLocation(.custom(.selectLocation)))):
-                 state.routes.push(.mapSelection(state.mapSelection))
-                 return .none
-             case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
-                 state.addLocationState.custom.location = location
-                 state.routes = State.initialState.routes + [
-                     .push(.newLocation(state.addLocationState))
-                 ]
-                 return .none */
+            case .router(.routeAction(_, action: .map(.custom(.newLocationPressed)))):
+                state.addLocationState = .initialState
+                state.routes.push(.newLocation(state.addLocationState))
+                return .none
+            case let .router(.routeAction(_, action: .map(.custom(.locationDetailPressed(location))))):
+                state.locationDetailState.location = location
+                state.routes.push(.locationDetail(state.locationDetailState))
+                return .none
+            case .router(.routeAction(_, action: .newLocation(.custom(.selectLocation)))):
+                state.routes.push(.mapSelection(state.mapSelection))
+                return .none
+            case let .router(.routeAction(_, action: .mapSelection(.locationSelected(location)))):
+                state.addLocationState.custom.location = location
+                state.routes = State.initialState.routes + [
+                    .push(.newLocation(state.addLocationState))
+                ]
+                return .none
             default:
-                .none
+                return .none
             }
         }
         .forEachRoute(\.routes, action: \.router)

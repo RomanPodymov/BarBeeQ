@@ -27,7 +27,7 @@ func createImage(_ value: Data?) -> Image {
 }
 
 struct MapView: View {
-    var store: StoreOf<FullMapReducer>
+    @Bindable var store: StoreOf<FullMapReducer>
 
     var body: some View {
         ZStack {
@@ -67,9 +67,9 @@ struct MapView: View {
             }
         }
         .loadingIndicator(store.basic.isLoading)
-        /* .alert("Error", isPresented: $store.showingAlert.sending(\.error)) {
-              Button("OK", role: .cancel) {}
-         } */
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
+            Button("OK", role: .cancel) {}
+        }
         .onAppear {
             store.send(.custom(.onAppear))
         }
