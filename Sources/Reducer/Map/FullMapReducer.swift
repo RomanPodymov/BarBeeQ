@@ -36,6 +36,10 @@ struct FullMapReducer {
                 .run { send in
                     await send(.basic(.startLoading))
                 }
+            case .custom(.received):
+                .run { send in
+                    await send(.basic(.endLoading))
+                }
             case .custom(.loadLocationsFailed):
                 .run { send in
                     await send(.basic(.endLoading))

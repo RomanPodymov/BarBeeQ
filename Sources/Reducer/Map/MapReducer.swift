@@ -24,11 +24,13 @@ struct MapReducer {
     enum Action {
         case onAppear
         case onDisappear
+
         case received([BarBeeQLocation])
+        case loadLocationsFailed
+
         case newLocationPressed
         case locationDetailPressed(BarBeeQLocation)
         case isSignedIn(Bool)
-        case loadLocationsFailed
     }
 
     enum CancelID { case locations }
@@ -54,7 +56,6 @@ struct MapReducer {
             case .onDisappear:
                 return .cancel(id: CancelID.locations)
             case let .received(data):
-                // state.basic.isLoading = false
                 state.data = data
                 return .none
             case let .isSignedIn(value):
