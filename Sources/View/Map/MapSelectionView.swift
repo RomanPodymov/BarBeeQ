@@ -16,8 +16,8 @@ struct MapSelectionView: View {
 
     var body: some View {
         MapReader { proxy in
-            Map {}
-                .onTapGesture { position in
+            Map()
+                .onTapGestureBugFix { position in
                     if let coordinate = proxy.convert(position, from: .local) {
                         store.send(.locationSelected(coordinate))
                     }

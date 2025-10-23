@@ -76,6 +76,12 @@ struct LocationsListCoordinator {
                     .push(.newLocation(state.addLocationState))
                 ]
                 return .none
+            case let .router(.routeAction(_, action: .newLocation(.custom(.nameChanged(name))))):
+                state.addLocationState.custom.name = name
+                return .none
+            case let .router(.routeAction(_, action: .newLocation(.custom(.photoLoaded(photo))))):
+                state.addLocationState.custom.photo = photo
+                return .none
             default:
                 return .none
             }
