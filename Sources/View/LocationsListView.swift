@@ -12,14 +12,14 @@ import SwiftUI
 import TCACoordinators
 
 struct LocationsListView: View {
-    var store: StoreOf<MapReducer>
+    var store: StoreOf<FullMapReducer>
 
     var body: some View {
         ZStack {
             List {
-                ForEach(store.data) { place in
+                ForEach(store.custom.data) { place in
                     Button {
-                        store.send(.locationDetailPressed(place))
+                        store.send(.custom(.locationDetailPressed(place)))
                     } label: {
                         Text(place.name)
                     }
@@ -30,7 +30,7 @@ struct LocationsListView: View {
                 HStack {
                     Spacer()
                     Button {
-                        store.send(.newLocationPressed)
+                        store.send(.custom(.newLocationPressed))
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .resizable()
@@ -41,12 +41,12 @@ struct LocationsListView: View {
                 }
             }
         }
-        .loadingIndicator(store.isLoading)
+        .loadingIndicator(store.basic.isLoading)
         .onAppear {
-            store.send(.onAppear)
+            store.send(.custom(.onAppear))
         }
         .onDisappear {
-            store.send(.onDisappear)
+            store.send(.custom(.onDisappear))
         }
     }
 }

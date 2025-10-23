@@ -27,19 +27,19 @@ func createImage(_ value: Data?) -> Image {
 }
 
 struct MapView: View {
-    var store: StoreOf<MapReducer>
+    @Bindable var store: StoreOf<FullMapReducer>
 
     var body: some View {
         ZStack {
             Map {
-                ForEach(store.data) { place in
+                ForEach(store.custom.data) { place in
                     Annotation(place.name, coordinate: place.location) {
                         VStack {
                             createImage(place.photo)
                                 .resizable()
                                 .frame(width: 100, height: 100)
                             Button {
-                                store.send(.locationDetailPressed(place))
+                                store.send(.custom(.locationDetailPressed(place)))
                             } label: {
                                 Text(place.name)
                             }
@@ -48,13 +48,13 @@ struct MapView: View {
                 }
             }
             .mapControlVisibility(.hidden)
-            if let isSignedIn = store.state.isSignedIn, isSignedIn {
+            if let isSignedIn = store.custom.isSignedIn, isSignedIn {
                 VStack {
                     Spacer()
                     HStack {
                         Spacer()
                         Button {
-                            store.send(.newLocationPressed)
+                            store.send(.custom(.newLocationPressed))
                         } label: {
                             Image(systemName: "plus.circle.fill")
                                 .resizable()
@@ -66,12 +66,15 @@ struct MapView: View {
                 }
             }
         }
-        .loadingIndicator(store.isLoading)
+        .loadingIndicator(store.basic.isLoading)
+        .alert("Error", isPresented: $store.basic.showingAlert.sending(\.basic.error)) {
+            Button("OK", role: .cancel) {}
+        }
         .onAppear {
-            store.send(.onAppear)
+            store.send(.custom(.onAppear))
         }
         .onDisappear {
-            store.send(.onDisappear)
+            store.send(.custom(.onDisappear))
         }
     }
 }
