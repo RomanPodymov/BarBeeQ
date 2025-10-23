@@ -14,12 +14,14 @@ enum MapScreen {
     case map(FullMapReducer)
     case newLocation(FullAddLocationReducer)
     case mapSelection(MapSelectionReducer)
+    case locationDetail(LocationDetailReducer)
 }
 
 enum MapScreenId {
     case map
     case newLocation
     case mapSelection
+    case locationDetail
 }
 
 extension MapScreen.State: Identifiable {
@@ -31,6 +33,8 @@ extension MapScreen.State: Identifiable {
             .newLocation
         case .mapSelection:
             .mapSelection
+        case .locationDetail:
+            .locationDetail
         }
     }
 }
@@ -47,6 +51,7 @@ struct MapCoordinator {
 
         var addLocationState = FullAddLocationReducer.State.initialState
         var mapSelection = MapSelectionReducer.State.initialState
+        var locationDetailState = LocationDetailReducer.State.initialState
     }
 
     enum Action {
@@ -77,6 +82,10 @@ struct MapCoordinator {
                 state.routes = State.initialState.routes + [
                     .push(.newLocation(state.addLocationState))
                 ]
+                return .none
+            case let .router(.routeAction(_, action: .map(.custom(.locationDetailPressed(location))))):
+                state.locationDetailState.location = location
+                state.routes.push(.locationDetail(state.locationDetailState))
                 return .none
             default:
                 return .none

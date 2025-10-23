@@ -28,6 +28,10 @@ struct MapCoordinatorView: View {
                 MapSelectionView(
                     store: store
                 )
+            case let .locationDetail(store):
+                LocationDetailView(
+                    store: store
+                )
             }
         }
     }
