@@ -10,7 +10,6 @@
 import ComposableArchitecture
 import Testing
 
-@Suite
 struct BarBeeQTests {
     @Test
     func testAddLocation() async throws {
@@ -34,7 +33,7 @@ struct BarBeeQTests {
 
     @MainActor
     @Test
-    func fullAddLocationReducerNameChanged() async throws {
+    func fullAddLocationReducerNameChanged() async {
         // Given
         let someName = "Hello"
         let store: StoreOf<FullAddLocationReducer> = .init(initialState: .initialState) {
