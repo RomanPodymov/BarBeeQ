@@ -7,7 +7,7 @@ options:
 packages:
   RPMacro:
     url: https://github.com/RomanPodymov/RPMacro.git
-    branch: feature/macros
+    version: 0.0.1
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
     version: 1.25.5
