@@ -12,7 +12,7 @@ import Testing
 
 struct BarBeeQTests {
     @Test
-    func testAddLocation() async throws {
+    func `add location`() async throws {
         // Given
         @Dependency(\.locationsClient) var locationsClient
         let nextLocation = BarBeeQLocation(
@@ -33,7 +33,7 @@ struct BarBeeQTests {
 
     @MainActor
     @Test
-    func fullAddLocationReducerNameChanged() async {
+    func `full add location reducer name changed`() async {
         // Given
         let someName = "Hello"
         let store: StoreOf<FullAddLocationReducer> = .init(initialState: .initialState) {
