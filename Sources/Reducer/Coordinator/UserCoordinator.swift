@@ -48,7 +48,7 @@ struct UserCoordinator {
     @ObservableState
     struct State: Equatable, Hashable {
         static let initialState = State(
-            routes: [.root(.loading(.initialState))]
+            routes: [.root(.loading(.initialState), embedInNavigationView: true)]
         )
 
         var routes: IdentifiedArrayOf<Route<UserScreen.State>>
@@ -71,19 +71,19 @@ struct UserCoordinator {
                  .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))),
                  .router(.routeAction(_, action: .signOut(.custom(.deleteAccountSuccess)))):
                 state.routes = [
-                    .root(.signIn(.initialState))
+                    .root(.signIn(.initialState), embedInNavigationView: true)
                 ]
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(true)))),
                  .router(.routeAction(_, action: .signIn(.custom(.signInSuccess)))):
                 state.routes = [
-                    .root(.signOut(.initialState))
+                    .root(.signOut(.initialState), embedInNavigationView: true)
                 ]
                 return .none
             case .router(.routeAction(_, action: .register(.custom(.registerSuccess)))),
                  .router(.routeAction(_, action: .resetPassword(.custom(.resetPasswordSuccess)))):
                 state.routes = [
-                    .root(.signIn(.initialState))
+                    .root(.signIn(.initialState), embedInNavigationView: true)
                 ]
                 return .none
             default:

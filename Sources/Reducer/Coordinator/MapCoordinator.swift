@@ -44,7 +44,7 @@ struct MapCoordinator {
     @ObservableState
     struct State: Equatable, Hashable {
         static let initialState = State(
-            routes: [.root(.map(.initialState))]
+            routes: [.root(.map(.initialState), embedInNavigationView: true)]
         )
 
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
