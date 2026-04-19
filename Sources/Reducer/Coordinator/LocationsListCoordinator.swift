@@ -10,13 +10,15 @@ import ComposableArchitecture
 import RPMacro
 @preconcurrency import TCACoordinators
 
-@Reducer(state: .equatable, .hashable, .sendable)
+@Reducer
 enum LocationsListScreen {
     case map(FullMapReducer)
     case newLocation(FullAddLocationReducer)
     case mapSelection(MapSelectionReducer)
     case locationDetail(LocationDetailReducer)
 }
+
+extension LocationsListScreen.State: Hashable {}
 
 enum Global {
     #generateEnum(name: "LocationsListScreenId", ["map", "newLocation", "mapSelection", "locationDetail"])

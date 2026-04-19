@@ -9,7 +9,7 @@
 import ComposableArchitecture
 @preconcurrency import TCACoordinators
 
-@Reducer(state: .equatable, .hashable, .sendable)
+@Reducer
 enum UserScreen {
     case signIn(FullSignInReducer)
     case signOut(FullSignOutReducer)
@@ -17,6 +17,8 @@ enum UserScreen {
     case resetPassword(FullResetPasswordReducer)
     case loading(InitialLoadingReducer)
 }
+
+extension UserScreen.State: Hashable {}
 
 enum UserScreenId {
     case signIn

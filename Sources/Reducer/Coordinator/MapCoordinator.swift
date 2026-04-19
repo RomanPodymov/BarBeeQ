@@ -9,13 +9,15 @@
 import ComposableArchitecture
 @preconcurrency import TCACoordinators
 
-@Reducer(state: .equatable, .hashable, .sendable)
+@Reducer
 enum MapScreen {
     case map(FullMapReducer)
     case newLocation(FullAddLocationReducer)
     case mapSelection(MapSelectionReducer)
     case locationDetail(LocationDetailReducer)
 }
+
+extension MapScreen.State: Hashable {}
 
 enum MapScreenId {
     case map
