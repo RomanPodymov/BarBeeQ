@@ -12,8 +12,8 @@ packages:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
     version: 1.25.5
   TCACoordinators:
-    url: https://github.com/RomanPodymov/TCACoordinators.git
-    branch: main
+    url: https://github.com/johnpatrickmorgan/TCACoordinators.git
+    version: 0.16.0
   CombineFirebaseFirestore:
     url: https://github.com/RomanPodymov/CombineFirebase.git
     branch: master
