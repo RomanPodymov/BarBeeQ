@@ -10,7 +10,7 @@ import Combine
 import ComposableArchitecture
 import MapKit
 
-struct BarBeeQLocation: Equatable, Hashable, Identifiable, Sendable {
+struct BarBeeQLocation: Equatable, Hashable, Identifiable {
     var id: String {
         name
     }

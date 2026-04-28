@@ -9,7 +9,7 @@
 import ComposableArchitecture
 @preconcurrency import TCACoordinators
 
-@Reducer(state: .equatable, .hashable, .sendable)
+@Reducer
 enum UserScreen {
     case signIn(FullSignInReducer)
     case signOut(FullSignOutReducer)
@@ -17,6 +17,8 @@ enum UserScreen {
     case resetPassword(FullResetPasswordReducer)
     case loading(InitialLoadingReducer)
 }
+
+extension UserScreen.State: Hashable {}
 
 enum UserScreenId {
     case signIn
@@ -48,7 +50,7 @@ struct UserCoordinator {
     @ObservableState
     struct State: Equatable, Hashable {
         static let initialState = State(
-            routes: [.root(.loading(.initialState), embedInNavigationView: true)]
+            routes: [.root(.loading(.initialState), withNavigation: true)]
         )
 
         var routes: IdentifiedArrayOf<Route<UserScreen.State>>
@@ -71,19 +73,19 @@ struct UserCoordinator {
                  .router(.routeAction(_, action: .signOut(.custom(.signOutSuccess)))),
                  .router(.routeAction(_, action: .signOut(.custom(.deleteAccountSuccess)))):
                 state.routes = [
-                    .root(.signIn(.initialState), embedInNavigationView: true)
+                    .root(.signIn(.initialState), withNavigation: true)
                 ]
                 return .none
             case .router(.routeAction(_, action: .loading(.isSignedIn(true)))),
                  .router(.routeAction(_, action: .signIn(.custom(.signInSuccess)))):
                 state.routes = [
-                    .root(.signOut(.initialState), embedInNavigationView: true)
+                    .root(.signOut(.initialState), withNavigation: true)
                 ]
                 return .none
             case .router(.routeAction(_, action: .register(.custom(.registerSuccess)))),
                  .router(.routeAction(_, action: .resetPassword(.custom(.resetPasswordSuccess)))):
                 state.routes = [
-                    .root(.signIn(.initialState), embedInNavigationView: true)
+                    .root(.signIn(.initialState), withNavigation: true)
                 ]
                 return .none
             default:

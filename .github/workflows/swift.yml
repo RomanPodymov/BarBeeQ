@@ -19,7 +19,7 @@ jobs:
       - name: Setup Xcode version
         uses: maxim-lobanov/setup-xcode@v1.6.0
         with:
-          xcode-version: 26
+          xcode-version: 26.3
       - name: Install Mint
         run: brew install mint
       - name: Cache Mint modules
@@ -41,4 +41,4 @@ jobs:
       - name: Generate Xcode project
         run: mint bootstrap && mint run xcodegen
       - name: Build and test iOS
-        run: xcodebuild test -project BarBeeQ.xcodeproj -scheme BarBeeQApp -destination "platform=iOS Simulator,OS=26.0.1,name=iPhone 17" -skipMacroValidation
+        run: xcodebuild test -project BarBeeQ.xcodeproj -scheme BarBeeQApp -destination "platform=iOS Simulator,OS=26.2,name=iPhone 17" -skipMacroValidation

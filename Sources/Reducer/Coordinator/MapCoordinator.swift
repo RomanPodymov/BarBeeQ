@@ -9,13 +9,15 @@
 import ComposableArchitecture
 @preconcurrency import TCACoordinators
 
-@Reducer(state: .equatable, .hashable, .sendable)
+@Reducer
 enum MapScreen {
     case map(FullMapReducer)
     case newLocation(FullAddLocationReducer)
     case mapSelection(MapSelectionReducer)
     case locationDetail(LocationDetailReducer)
 }
+
+extension MapScreen.State: Hashable {}
 
 enum MapScreenId {
     case map
@@ -44,7 +46,7 @@ struct MapCoordinator {
     @ObservableState
     struct State: Equatable, Hashable {
         static let initialState = State(
-            routes: [.root(.map(.initialState), embedInNavigationView: true)]
+            routes: [.root(.map(.initialState), withNavigation: true)]
         )
 
         var routes: IdentifiedArrayOf<Route<MapScreen.State>>
