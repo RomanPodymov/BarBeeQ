@@ -10,7 +10,7 @@ packages:
     version: 0.0.1
   ComposableArchitecture:
     url: https://github.com/pointfreeco/swift-composable-architecture.git
-    version: 1.25.5
+    version: 1.26.1
   TCACoordinators:
     url: https://github.com/johnpatrickmorgan/TCACoordinators.git
     version: 0.16.0
